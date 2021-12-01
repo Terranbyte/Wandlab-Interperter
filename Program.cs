@@ -10,7 +10,7 @@ namespace Wandlab_interpreter
     {
         static void Main(string[] args)
         {
-            string program = "Omicorn|0-Omicorn|1-Lambda[Pi|3|!0]^Tau|!1";
+            string program = "Omicorn|0-Omicorn|1-Lambda[Pi|3|->0]^Tau|->1";
         }
     }
 }

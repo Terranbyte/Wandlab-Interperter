@@ -1,6 +1,6 @@
-﻿grammar Wandlab;
+grammar Wandlab;
 
-program: sequence* operation EOF
+program: (sequence* operation)* EOF
     ;
 
 sequence: operation'-'
@@ -34,8 +34,9 @@ subop: TICK
     ;
 
 ARGUMENT : (STRING | POINTER | NUMBER) ;
-STRING : QUOTE (TEXT | NUMBER)* QUOTE ;
-POINTER : ARROW NUMBER ;
+STRING : QUOTE .*? QUOTE ;
+POINTER : ARROW+ NUMBER ;
+NUMBER : [0-9]+ ;
 
 // Super spells
 ALPHA : 'Alpha' ;
@@ -64,7 +65,5 @@ ARROW : '->' ;
 LBRACKET : '[' ;
 RBRACKET : ']' ;
 
-TEXT: [a-zA-Z ]+ ;
-NUMBER : [0-9]+ ;
 
 WS : [ \t\r\n] -> skip ;
