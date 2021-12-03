@@ -1,9 +1,13 @@
-grammar Wandlab;
+﻿grammar Wandlab;
 
-program: (sequence* operation)* EOF
+<<<<<<< HEAD
+program: preprocessor_command* (operation (DASH operation)*)* EOF
+=======
+program: sequence* operation EOF
     ;
 
 sequence: operation'-'
+>>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
     ;
 
 operation: op subop?
@@ -23,7 +27,7 @@ op: ALPHA
     | OMEGA PIPE ARGUMENT
     ;
 
-function: LBRACKET (sequence* operation)? RBRACKET
+function: LBRACKET operation (DASH operation)* RBRACKET
     ;
 
 subop: TICK
@@ -33,10 +37,21 @@ subop: TICK
     | CHI)
     ;
 
-ARGUMENT : (STRING | POINTER | NUMBER) ;
+<<<<<<< HEAD
+preprocessor_command : POUND PREPROCESSNAME COLON PREPROCESSARG (PIPE PREPROCESSARG)* SEMICOLON
+    ;
+
+ARGUMENT : STRING | POINTER | NUMBER ;
 STRING : QUOTE .*? QUOTE ;
 POINTER : ARROW+ NUMBER ;
 NUMBER : [0-9]+ ;
+=======
+ARGUMENT : (STRING | POINTER | NUMBER) ;
+STRING : QUOTE (TEXT | NUMBER)* QUOTE ;
+POINTER : ARROW NUMBER ;
+>>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
+
+COMMENT : SLASH .*? SLASH -> skip;
 
 // Super spells
 ALPHA : 'Alpha' ;
@@ -58,6 +73,15 @@ TAU : 'Tau' ;
 PHI : 'Phi' ;
 CHI : 'Chi' ;
 
+// Preprocessor
+PREPROCESSNAME : [A-Z_]+ ;
+PREPROCESSARG : (STRING | NUMBER) ;
+
+DASH : '-' ;
+SLASH : '/' ;
+POUND : '#' ;
+COLON : ':' ;
+SEMICOLON : ';' ;
 PIPE : '|' ;
 TICK : '^' ;
 QUOTE : '"' ;
@@ -65,5 +89,10 @@ ARROW : '->' ;
 LBRACKET : '[' ;
 RBRACKET : ']' ;
 
+<<<<<<< HEAD
+=======
+TEXT: [a-zA-Z ]+ ;
+NUMBER : [0-9]+ ;
 
+>>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
 WS : [ \t\r\n] -> skip ;

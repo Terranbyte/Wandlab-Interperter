@@ -1,4 +1,4 @@
-// Generated from c:\Users\fredrik.nikielhard\source\repos\Terranbyte\Wandlab-Interperter\ANTLR\Wandlab\Wandlab.g4 by ANTLR 4.8
+// Generated from c:\Users\fredr\source\repos\Wandlab\Wandlab interpreter\ANTLR\Wandlab\Wandlab.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,10 +16,10 @@ public class WandlabParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, ARGUMENT=2, STRING=3, POINTER=4, NUMBER=5, ALPHA=6, BETA=7, DELTA=8, 
-		ZETA=9, ETA=10, LAMBDA=11, MU=12, XI=13, OMICORN=14, PI=15, SIGMA=16, 
-		OMEGA=17, GAMMA=18, TAU=19, PHI=20, CHI=21, PIPE=22, TICK=23, QUOTE=24, 
-		ARROW=25, LBRACKET=26, RBRACKET=27, WS=28;
+		T__0=1, ARGUMENT=2, STRING=3, POINTER=4, ALPHA=5, BETA=6, DELTA=7, ZETA=8, 
+		ETA=9, LAMBDA=10, MU=11, XI=12, OMICORN=13, PI=14, SIGMA=15, OMEGA=16, 
+		GAMMA=17, TAU=18, PHI=19, CHI=20, PIPE=21, TICK=22, QUOTE=23, ARROW=24, 
+		LBRACKET=25, RBRACKET=26, TEXT=27, NUMBER=28, WS=29;
 	public static final int
 		RULE_program = 0, RULE_sequence = 1, RULE_operation = 2, RULE_op = 3, 
 		RULE_function = 4, RULE_subop = 5;
@@ -32,8 +32,8 @@ public class WandlabParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'-'", null, null, null, null, "'Alpha'", "'Beta'", "'Delta'", 
-			"'Zeta'", "'Eta'", "'Lambda'", "'Mu'", "'Xi'", "'Omicorn'", "'Pi'", "'Sigma'", 
+			null, "'-'", null, null, null, "'Alpha'", "'Beta'", "'Delta'", "'Zeta'", 
+			"'Eta'", "'Lambda'", "'Mu'", "'Xi'", "'Omicorn'", "'Pi'", "'Sigma'", 
 			"'Omega'", "'Gamma'", "'Tau'", "'Phi'", "'Chi'", "'|'", "'^'", "'\"'", 
 			"'->'", "'['", "']'"
 		};
@@ -41,10 +41,10 @@ public class WandlabParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, "ARGUMENT", "STRING", "POINTER", "NUMBER", "ALPHA", "BETA", 
-			"DELTA", "ZETA", "ETA", "LAMBDA", "MU", "XI", "OMICORN", "PI", "SIGMA", 
-			"OMEGA", "GAMMA", "TAU", "PHI", "CHI", "PIPE", "TICK", "QUOTE", "ARROW", 
-			"LBRACKET", "RBRACKET", "WS"
+			null, null, "ARGUMENT", "STRING", "POINTER", "ALPHA", "BETA", "DELTA", 
+			"ZETA", "ETA", "LAMBDA", "MU", "XI", "OMICORN", "PI", "SIGMA", "OMEGA", 
+			"GAMMA", "TAU", "PHI", "CHI", "PIPE", "TICK", "QUOTE", "ARROW", "LBRACKET", 
+			"RBRACKET", "TEXT", "NUMBER", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -99,13 +99,10 @@ public class WandlabParser extends Parser {
 	}
 
 	public static class ProgramContext extends ParserRuleContext {
+		public OperationContext operation() {
+			return getRuleContext(OperationContext.class,0);
+		}
 		public TerminalNode EOF() { return getToken(WandlabParser.EOF, 0); }
-		public List<OperationContext> operation() {
-			return getRuleContexts(OperationContext.class);
-		}
-		public OperationContext operation(int i) {
-			return getRuleContext(OperationContext.class,i);
-		}
 		public List<SequenceContext> sequence() {
 			return getRuleContexts(SequenceContext.class);
 		}
@@ -121,42 +118,29 @@ public class WandlabParser extends Parser {
 	public final ProgramContext program() throws RecognitionException {
 		ProgramContext _localctx = new ProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_program);
-		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21);
+			setState(15);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ALPHA) | (1L << BETA) | (1L << DELTA) | (1L << ZETA) | (1L << ETA) | (1L << LAMBDA) | (1L << MU) | (1L << XI) | (1L << OMICORN) | (1L << PI) | (1L << SIGMA) | (1L << OMEGA))) != 0)) {
-				{
-				{
-				setState(15);
+			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(12);
+					sequence();
+					}
+					} 
+				}
+				setState(17);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-					if ( _alt==1 ) {
-						{
-						{
-						setState(12);
-						sequence();
-						}
-						} 
-					}
-					setState(17);
-					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-				}
-				setState(18);
-				operation();
-				}
-				}
-				setState(23);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
 			}
-			setState(24);
+			setState(18);
+			operation();
+			setState(19);
 			match(EOF);
 			}
 		}
@@ -187,9 +171,9 @@ public class WandlabParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(26);
+			setState(21);
 			operation();
-			setState(27);
+			setState(22);
 			match(T__0);
 			}
 		}
@@ -224,14 +208,14 @@ public class WandlabParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(24);
 			op();
-			setState(31);
+			setState(26);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TICK) {
 				{
-				setState(30);
+				setState(25);
 				subop();
 				}
 			}
@@ -283,39 +267,54 @@ public class WandlabParser extends Parser {
 		OpContext _localctx = new OpContext(_ctx, getState());
 		enterRule(_localctx, 6, RULE_op);
 		try {
-			setState(73);
+			setState(68);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ALPHA:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(33);
+				setState(28);
 				match(ALPHA);
 				}
 				break;
 			case BETA:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(34);
+				setState(29);
 				match(BETA);
 				}
 				break;
 			case DELTA:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(35);
+				setState(30);
 				match(DELTA);
-				setState(36);
+				setState(31);
 				match(PIPE);
-				setState(37);
+				setState(32);
 				match(ARGUMENT);
 				}
 				break;
 			case ZETA:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(38);
+				setState(33);
 				match(ZETA);
+				setState(34);
+				match(PIPE);
+				setState(35);
+				match(ARGUMENT);
+				setState(36);
+				match(PIPE);
+				setState(37);
+				match(ARGUMENT);
+				}
+				break;
+			case ETA:
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(38);
+				match(ETA);
 				setState(39);
 				match(PIPE);
 				setState(40);
@@ -326,35 +325,35 @@ public class WandlabParser extends Parser {
 				match(ARGUMENT);
 				}
 				break;
-			case ETA:
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(43);
-				match(ETA);
-				setState(44);
-				match(PIPE);
-				setState(45);
-				match(ARGUMENT);
-				setState(46);
-				match(PIPE);
-				setState(47);
-				match(ARGUMENT);
-				}
-				break;
 			case LAMBDA:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(48);
+				setState(43);
 				match(LAMBDA);
-				setState(49);
+				setState(44);
 				function();
 				}
 				break;
 			case MU:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(50);
+				setState(45);
 				match(MU);
+				setState(46);
+				match(PIPE);
+				setState(47);
+				match(ARGUMENT);
+				setState(48);
+				match(PIPE);
+				setState(49);
+				match(ARGUMENT);
+				}
+				break;
+			case XI:
+				enterOuterAlt(_localctx, 8);
+				{
+				setState(50);
+				match(XI);
 				setState(51);
 				match(PIPE);
 				setState(52);
@@ -365,64 +364,49 @@ public class WandlabParser extends Parser {
 				match(ARGUMENT);
 				}
 				break;
-			case XI:
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(55);
-				match(XI);
-				setState(56);
-				match(PIPE);
-				setState(57);
-				match(ARGUMENT);
-				setState(58);
-				match(PIPE);
-				setState(59);
-				match(ARGUMENT);
-				}
-				break;
 			case OMICORN:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(60);
+				setState(55);
 				match(OMICORN);
-				setState(61);
+				setState(56);
 				match(PIPE);
-				setState(62);
+				setState(57);
 				match(ARGUMENT);
 				}
 				break;
 			case PI:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(63);
+				setState(58);
 				match(PI);
-				setState(64);
+				setState(59);
 				match(PIPE);
-				setState(65);
+				setState(60);
 				match(ARGUMENT);
-				setState(66);
+				setState(61);
 				match(PIPE);
-				setState(67);
+				setState(62);
 				match(ARGUMENT);
 				}
 				break;
 			case SIGMA:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(68);
+				setState(63);
 				match(SIGMA);
-				setState(69);
+				setState(64);
 				function();
 				}
 				break;
 			case OMEGA:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(70);
+				setState(65);
 				match(OMEGA);
-				setState(71);
+				setState(66);
 				match(PIPE);
-				setState(72);
+				setState(67);
 				match(ARGUMENT);
 				}
 				break;
@@ -467,35 +451,35 @@ public class WandlabParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(70);
 			match(LBRACKET);
-			setState(83);
+			setState(78);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ALPHA) | (1L << BETA) | (1L << DELTA) | (1L << ZETA) | (1L << ETA) | (1L << LAMBDA) | (1L << MU) | (1L << XI) | (1L << OMICORN) | (1L << PI) | (1L << SIGMA) | (1L << OMEGA))) != 0)) {
 				{
-				setState(79);
+				setState(74);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1 ) {
 						{
 						{
-						setState(76);
+						setState(71);
 						sequence();
 						}
 						} 
 					}
-					setState(81);
+					setState(76);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
 				}
-				setState(82);
+				setState(77);
 				operation();
 				}
 			}
 
-			setState(85);
+			setState(80);
 			match(RBRACKET);
 			}
 		}
@@ -530,40 +514,40 @@ public class WandlabParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(82);
 			match(TICK);
-			setState(96);
+			setState(91);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case GAMMA:
 				{
-				setState(88);
+				setState(83);
 				match(GAMMA);
-				setState(89);
+				setState(84);
 				match(PIPE);
-				setState(90);
+				setState(85);
 				match(ARGUMENT);
 				}
 				break;
 			case TAU:
 				{
-				setState(91);
+				setState(86);
 				match(TAU);
-				setState(92);
+				setState(87);
 				match(PIPE);
-				setState(93);
+				setState(88);
 				match(ARGUMENT);
 				}
 				break;
 			case PHI:
 				{
-				setState(94);
+				setState(89);
 				match(PHI);
 				}
 				break;
 			case CHI:
 				{
-				setState(95);
+				setState(90);
 				match(CHI);
 				}
 				break;
@@ -584,32 +568,31 @@ public class WandlabParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\36e\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37`\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\7\2\20\n\2\f\2\16\2\23\13\2\3\2"+
-		"\7\2\26\n\2\f\2\16\2\31\13\2\3\2\3\2\3\3\3\3\3\3\3\4\3\4\5\4\"\n\4\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
+		"\3\2\3\2\3\3\3\3\3\3\3\4\3\4\5\4\35\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
 		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\5\5L\n\5\3\6\3\6\7\6P\n\6\f\6\16\6S\13\6\3\6\5\6V\n\6"+
-		"\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\5\7c\n\7\3\7\2\2\b\2\4\6"+
-		"\b\n\f\2\2\2q\2\27\3\2\2\2\4\34\3\2\2\2\6\37\3\2\2\2\bK\3\2\2\2\nM\3\2"+
-		"\2\2\fY\3\2\2\2\16\20\5\4\3\2\17\16\3\2\2\2\20\23\3\2\2\2\21\17\3\2\2"+
-		"\2\21\22\3\2\2\2\22\24\3\2\2\2\23\21\3\2\2\2\24\26\5\6\4\2\25\21\3\2\2"+
-		"\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\32\3\2\2\2\31\27\3\2\2"+
-		"\2\32\33\7\2\2\3\33\3\3\2\2\2\34\35\5\6\4\2\35\36\7\3\2\2\36\5\3\2\2\2"+
-		"\37!\5\b\5\2 \"\5\f\7\2! \3\2\2\2!\"\3\2\2\2\"\7\3\2\2\2#L\7\b\2\2$L\7"+
-		"\t\2\2%&\7\n\2\2&\'\7\30\2\2\'L\7\4\2\2()\7\13\2\2)*\7\30\2\2*+\7\4\2"+
-		"\2+,\7\30\2\2,L\7\4\2\2-.\7\f\2\2./\7\30\2\2/\60\7\4\2\2\60\61\7\30\2"+
-		"\2\61L\7\4\2\2\62\63\7\r\2\2\63L\5\n\6\2\64\65\7\16\2\2\65\66\7\30\2\2"+
-		"\66\67\7\4\2\2\678\7\30\2\28L\7\4\2\29:\7\17\2\2:;\7\30\2\2;<\7\4\2\2"+
-		"<=\7\30\2\2=L\7\4\2\2>?\7\20\2\2?@\7\30\2\2@L\7\4\2\2AB\7\21\2\2BC\7\30"+
-		"\2\2CD\7\4\2\2DE\7\30\2\2EL\7\4\2\2FG\7\22\2\2GL\5\n\6\2HI\7\23\2\2IJ"+
-		"\7\30\2\2JL\7\4\2\2K#\3\2\2\2K$\3\2\2\2K%\3\2\2\2K(\3\2\2\2K-\3\2\2\2"+
-		"K\62\3\2\2\2K\64\3\2\2\2K9\3\2\2\2K>\3\2\2\2KA\3\2\2\2KF\3\2\2\2KH\3\2"+
-		"\2\2L\t\3\2\2\2MU\7\34\2\2NP\5\4\3\2ON\3\2\2\2PS\3\2\2\2QO\3\2\2\2QR\3"+
-		"\2\2\2RT\3\2\2\2SQ\3\2\2\2TV\5\6\4\2UQ\3\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7"+
-		"\35\2\2X\13\3\2\2\2Yb\7\31\2\2Z[\7\24\2\2[\\\7\30\2\2\\c\7\4\2\2]^\7\25"+
-		"\2\2^_\7\30\2\2_c\7\4\2\2`c\7\26\2\2ac\7\27\2\2bZ\3\2\2\2b]\3\2\2\2b`"+
-		"\3\2\2\2ba\3\2\2\2c\r\3\2\2\2\t\21\27!KQUb";
+		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5G\n\5"+
+		"\3\6\3\6\7\6K\n\6\f\6\16\6N\13\6\3\6\5\6Q\n\6\3\6\3\6\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\3\7\3\7\5\7^\n\7\3\7\2\2\b\2\4\6\b\n\f\2\2\2k\2\21\3\2\2"+
+		"\2\4\27\3\2\2\2\6\32\3\2\2\2\bF\3\2\2\2\nH\3\2\2\2\fT\3\2\2\2\16\20\5"+
+		"\4\3\2\17\16\3\2\2\2\20\23\3\2\2\2\21\17\3\2\2\2\21\22\3\2\2\2\22\24\3"+
+		"\2\2\2\23\21\3\2\2\2\24\25\5\6\4\2\25\26\7\2\2\3\26\3\3\2\2\2\27\30\5"+
+		"\6\4\2\30\31\7\3\2\2\31\5\3\2\2\2\32\34\5\b\5\2\33\35\5\f\7\2\34\33\3"+
+		"\2\2\2\34\35\3\2\2\2\35\7\3\2\2\2\36G\7\7\2\2\37G\7\b\2\2 !\7\t\2\2!\""+
+		"\7\27\2\2\"G\7\4\2\2#$\7\n\2\2$%\7\27\2\2%&\7\4\2\2&\'\7\27\2\2\'G\7\4"+
+		"\2\2()\7\13\2\2)*\7\27\2\2*+\7\4\2\2+,\7\27\2\2,G\7\4\2\2-.\7\f\2\2.G"+
+		"\5\n\6\2/\60\7\r\2\2\60\61\7\27\2\2\61\62\7\4\2\2\62\63\7\27\2\2\63G\7"+
+		"\4\2\2\64\65\7\16\2\2\65\66\7\27\2\2\66\67\7\4\2\2\678\7\27\2\28G\7\4"+
+		"\2\29:\7\17\2\2:;\7\27\2\2;G\7\4\2\2<=\7\20\2\2=>\7\27\2\2>?\7\4\2\2?"+
+		"@\7\27\2\2@G\7\4\2\2AB\7\21\2\2BG\5\n\6\2CD\7\22\2\2DE\7\27\2\2EG\7\4"+
+		"\2\2F\36\3\2\2\2F\37\3\2\2\2F \3\2\2\2F#\3\2\2\2F(\3\2\2\2F-\3\2\2\2F"+
+		"/\3\2\2\2F\64\3\2\2\2F9\3\2\2\2F<\3\2\2\2FA\3\2\2\2FC\3\2\2\2G\t\3\2\2"+
+		"\2HP\7\33\2\2IK\5\4\3\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2MO\3\2"+
+		"\2\2NL\3\2\2\2OQ\5\6\4\2PL\3\2\2\2PQ\3\2\2\2QR\3\2\2\2RS\7\34\2\2S\13"+
+		"\3\2\2\2T]\7\30\2\2UV\7\23\2\2VW\7\27\2\2W^\7\4\2\2XY\7\24\2\2YZ\7\27"+
+		"\2\2Z^\7\4\2\2[^\7\25\2\2\\^\7\26\2\2]U\3\2\2\2]X\3\2\2\2][\3\2\2\2]\\"+
+		"\3\2\2\2^\r\3\2\2\2\b\21\34FLP]";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

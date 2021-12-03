@@ -48,18 +48,6 @@ public partial class WandlabBaseListener : IWandlabListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitProgram([NotNull] WandlabParser.ProgramContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="WandlabParser.sequence"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSequence([NotNull] WandlabParser.SequenceContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="WandlabParser.sequence"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSequence([NotNull] WandlabParser.SequenceContext context) { }
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="WandlabParser.operation"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

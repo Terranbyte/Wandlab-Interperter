@@ -1,1 +1,1 @@
-java org.antlr.v4.Tool -Dlanguage=CSharp %*
+java org.antlr.v4.Tool -Dlanguage=CSharp -visitor %*

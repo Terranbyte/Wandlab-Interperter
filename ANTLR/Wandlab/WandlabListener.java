@@ -1,4 +1,4 @@
-// Generated from .\Wandlab.g4 by ANTLR 4.9.3
+// Generated from Wandlab.g4 by ANTLR 4.9.3
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -16,16 +16,6 @@ public interface WandlabListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProgram(WandlabParser.ProgramContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link WandlabParser#sequence}.
-	 * @param ctx the parse tree
-	 */
-	void enterSequence(WandlabParser.SequenceContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link WandlabParser#sequence}.
-	 * @param ctx the parse tree
-	 */
-	void exitSequence(WandlabParser.SequenceContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link WandlabParser#operation}.
 	 * @param ctx the parse tree
@@ -66,4 +56,14 @@ public interface WandlabListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSubop(WandlabParser.SubopContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link WandlabParser#preprocessor_command}.
+	 * @param ctx the parse tree
+	 */
+	void enterPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link WandlabParser#preprocessor_command}.
+	 * @param ctx the parse tree
+	 */
+	void exitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx);
 }

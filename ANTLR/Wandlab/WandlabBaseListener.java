@@ -1,4 +1,4 @@
-// Generated from .\Wandlab.g4 by ANTLR 4.9.3
+// Generated from Wandlab.g4 by ANTLR 4.9.3
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -22,18 +22,6 @@ public class WandlabBaseListener implements WandlabListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProgram(WandlabParser.ProgramContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSequence(WandlabParser.SequenceContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSequence(WandlabParser.SequenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -82,6 +70,18 @@ public class WandlabBaseListener implements WandlabListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSubop(WandlabParser.SubopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

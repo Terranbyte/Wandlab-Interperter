@@ -41,16 +41,6 @@ public interface IWandlabListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProgram([NotNull] WandlabParser.ProgramContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="WandlabParser.sequence"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSequence([NotNull] WandlabParser.SequenceContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="WandlabParser.sequence"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSequence([NotNull] WandlabParser.SequenceContext context);
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="WandlabParser.operation"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
