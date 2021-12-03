@@ -1,13 +1,6 @@
 ﻿grammar Wandlab;
 
-<<<<<<< HEAD
 program: preprocessor_command* (operation (DASH operation)*)* EOF
-=======
-program: sequence* operation EOF
-    ;
-
-sequence: operation'-'
->>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
     ;
 
 operation: op subop?
@@ -37,7 +30,6 @@ subop: TICK
     | CHI)
     ;
 
-<<<<<<< HEAD
 preprocessor_command : POUND PREPROCESSNAME COLON PREPROCESSARG (PIPE PREPROCESSARG)* SEMICOLON
     ;
 
@@ -45,11 +37,6 @@ ARGUMENT : STRING | POINTER | NUMBER ;
 STRING : QUOTE .*? QUOTE ;
 POINTER : ARROW+ NUMBER ;
 NUMBER : [0-9]+ ;
-=======
-ARGUMENT : (STRING | POINTER | NUMBER) ;
-STRING : QUOTE (TEXT | NUMBER)* QUOTE ;
-POINTER : ARROW NUMBER ;
->>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
 
 COMMENT : SLASH .*? SLASH -> skip;
 
@@ -89,10 +76,4 @@ ARROW : '->' ;
 LBRACKET : '[' ;
 RBRACKET : ']' ;
 
-<<<<<<< HEAD
-=======
-TEXT: [a-zA-Z ]+ ;
-NUMBER : [0-9]+ ;
-
->>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
 WS : [ \t\r\n] -> skip ;

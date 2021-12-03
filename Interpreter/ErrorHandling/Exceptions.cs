@@ -25,4 +25,23 @@ namespace Wandlab_interpreter.Interpreter.ErrorHandling
         {
         }
     }
+
+    public class PointerRecursionException : Exception
+    {
+        public PointerRecursionException()
+        {
+        }
+
+        public PointerRecursionException(string message) : base(message)
+        {
+        }
+
+        public PointerRecursionException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected PointerRecursionException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }

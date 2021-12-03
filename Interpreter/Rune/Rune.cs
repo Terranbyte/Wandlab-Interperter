@@ -14,15 +14,28 @@ namespace Wandlab_interpreter.Interpreter.Runes
 
         public Rune()
         {
-            _value = new MultiValue(ValueType.NONE, 0, null);
+            _value = new MultiValue(ValueType.NONE, null);
         }
 
-        private object GetValue(ValueType type)
+        public object GetValue(ValueType typeCast)
         {
-            if (type != _value.GetValueType() && ((type | _value.GetValueType()) & ValueType.STRING) == ValueType.STRING)
-                throw new TypeMixingException($"Trying the get value of type \'{type}\'. Actual type was {_value.GetValueType()}");
+            // If there's a type cast, and the types don't match, and one of the types is string
+            if (typeCast != ValueType.NONE && 
+                typeCast != _value.GetValueType() && 
+                ((typeCast | _value.GetValueType()) & ValueType.STRING) == ValueType.STRING)
+                throw new TypeMixingException($"Cannot convert type \'{typeCast}\' to type \'{_value.GetValueType()}\'");
 
-            return null;
+            return _value.GetValue();
+        }
+
+        public void SetValue(ValueType type, object value)
+        {
+            _value = new MultiValue(type, value);
+        }
+
+        public ValueType GetValueType()
+        {
+            return _value.GetValueType();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wandlab_interpreter.Interpreter.ErrorHandling;
 
 namespace Wandlab_interpreter.Interpreter.Runes
 {
@@ -52,12 +53,20 @@ namespace Wandlab_interpreter.Interpreter.Runes
 
     public class RuneTable : IReadOnlyList<Rune>
     {
-        public Rune this[int index] => _runes[index];
-        public Rune this[int index, int ptrDepth] => ReslovePointer(index, ptrDepth);
+        public Rune this[int i] => ResolvePointer(i);
 
         public int Count => throw new NotImplementedException();
 
         private Rune[] _runes = new Rune[0];
+
+        public RuneTable(int size)
+        {
+            _runes = new Rune[size];
+            for (int i = 0; i < size; i++)
+            {
+                _runes[i] = new Rune();
+            }
+        }
 
         public IEnumerator<Rune> GetEnumerator()
         {
@@ -69,13 +78,23 @@ namespace Wandlab_interpreter.Interpreter.Runes
             return GetEnumerator();
         }
 
-        private Rune ReslovePointer(int index, int ptrDepth)
+        private Rune ResolvePointer(int index)
         {
-            for (int i = 0; i < ptrDepth; i++)
+            int i = 0;
+            Rune rune = _runes[index];
+
+            while (rune.GetValueType() == ValueType.POINTER)
             {
-                Rune rune = _runes[i];
-                //if (rune)
+                i++;
+                rune = _runes[(int)rune.GetValue(ValueType.POINTER)];
+
+                if (i >= 64)
+                {
+                    throw new PointerRecursionException("Exceeded maximum pointer depth of 64");
+                }
             }
+            
+            return rune;
         }
     }
 }

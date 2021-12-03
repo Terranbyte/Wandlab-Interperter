@@ -9,13 +9,11 @@ namespace Wandlab_interpreter.Interpreter.Spell
     public class MultiValue
     {
         private ValueType _type = ValueType.NONE;
-        private int _ptrDepth = 0;
         private object _value;
 
-        public MultiValue(ValueType type, int pointerDepth, object value)
+        public MultiValue(ValueType type, object value)
         {
             _type = type;
-            _ptrDepth = pointerDepth;
             _value = value;
         }
 
@@ -33,6 +31,10 @@ namespace Wandlab_interpreter.Interpreter.Spell
                 case ValueType.STRING:
                     return (string)_value;
                 case ValueType.POINTER:
+                case ValueType.NUMBER:
+                    return (int)_value;
+                default:
+                    throw new ArgumentOutOfRangeException($"MultiValue type \'{_type}\' is not a valid type");
                     break;
             }
         }
