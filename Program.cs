@@ -13,7 +13,6 @@ namespace Wandlab_interpreter
     {
         static void Main(string[] args)
         {
-<<<<<<< HEAD
             string program = "Omicorn|0-Omicorn|1-Lambda[Pi|3|->0]^Tau|->1";
             ICharStream charStream = CharStreams.fromString(program);
             ITokenSource tokenSource = new WandlabLexer(charStream);
@@ -22,11 +21,6 @@ namespace Wandlab_interpreter
             IParseTree parseTree = wandlabParser.program();
             WandlabInterpreter wandlab = new WandlabInterpreter();
             wandlab.Visit(parseTree);
-
-            // Todo: Add visitor
-=======
-            string program = "Omicorn|0-Omicorn|1-Lambda[Pi|3|!0]^Tau|!1";
->>>>>>> parent of 5ff3926 (Fixed grammar file and generated C# code)
         }
     }
 }
