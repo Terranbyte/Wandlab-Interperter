@@ -22,14 +22,6 @@ namespace Wandlab_interpreter
             IParseTree parseTree = wandlabParser.program();
             WandlabInterpreter wandlab = new WandlabInterpreter();
             wandlab.Visit(parseTree);
-
-            RuneTable table = new RuneTable(16);
-            table[0].SetValue(Interpreter.ValueType.POINTER, 6);
-            table[6].SetValue(Interpreter.ValueType.POINTER, 0);
-            table[2].SetValue(Interpreter.ValueType.POINTER, 4);
-            table[4].SetValue(Interpreter.ValueType.POINTER, 15);
-            table[15].SetValue(Interpreter.ValueType.STRING, "Hello world!");
-            Console.WriteLine((string)table[0].GetValue(Interpreter.ValueType.STRING));
         }
     }
 }

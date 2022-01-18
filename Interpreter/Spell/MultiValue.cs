@@ -35,7 +35,6 @@ namespace Wandlab_interpreter.Interpreter.Spell
                     return (int)_value;
                 default:
                     throw new ArgumentOutOfRangeException($"MultiValue type \'{_type}\' is not a valid type");
-                    break;
             }
         }
     }

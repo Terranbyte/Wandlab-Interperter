@@ -84,4 +84,14 @@ public partial class WandlabBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitSubop([NotNull] WandlabParser.SubopContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="WandlabParser.preprocessor_command"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitPreprocessor_command([NotNull] WandlabParser.Preprocessor_commandContext context) { return VisitChildren(context); }
 }

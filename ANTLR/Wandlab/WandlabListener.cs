@@ -80,4 +80,14 @@ public interface IWandlabListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitSubop([NotNull] WandlabParser.SubopContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="WandlabParser.preprocessor_command"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPreprocessor_command([NotNull] WandlabParser.Preprocessor_commandContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="WandlabParser.preprocessor_command"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPreprocessor_command([NotNull] WandlabParser.Preprocessor_commandContext context);
 }

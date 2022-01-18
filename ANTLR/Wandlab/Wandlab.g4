@@ -1,4 +1,4 @@
-﻿grammar Wandlab;
+grammar Wandlab;
 
 program: preprocessor_command* (operation (DASH operation)*)* EOF
     ;

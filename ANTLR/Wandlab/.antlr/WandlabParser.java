@@ -1,4 +1,4 @@
-// Generated from c:\Users\fredr\source\repos\Wandlab\Wandlab interpreter\ANTLR\Wandlab\Wandlab.g4 by ANTLR 4.8
+// Generated from c:\Users\fredrik.nikielhard\source\repos\Wandlab\Wandlab-Interperter\ANTLR\Wandlab\Wandlab.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -16,35 +16,37 @@ public class WandlabParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, ARGUMENT=2, STRING=3, POINTER=4, ALPHA=5, BETA=6, DELTA=7, ZETA=8, 
-		ETA=9, LAMBDA=10, MU=11, XI=12, OMICORN=13, PI=14, SIGMA=15, OMEGA=16, 
-		GAMMA=17, TAU=18, PHI=19, CHI=20, PIPE=21, TICK=22, QUOTE=23, ARROW=24, 
-		LBRACKET=25, RBRACKET=26, TEXT=27, NUMBER=28, WS=29;
+		ARGUMENT=1, STRING=2, POINTER=3, NUMBER=4, COMMENT=5, ALPHA=6, BETA=7, 
+		DELTA=8, ZETA=9, ETA=10, LAMBDA=11, MU=12, XI=13, OMICORN=14, PI=15, SIGMA=16, 
+		OMEGA=17, GAMMA=18, TAU=19, PHI=20, CHI=21, PREPROCESSNAME=22, PREPROCESSARG=23, 
+		DASH=24, SLASH=25, POUND=26, COLON=27, SEMICOLON=28, PIPE=29, TICK=30, 
+		QUOTE=31, ARROW=32, LBRACKET=33, RBRACKET=34, WS=35;
 	public static final int
-		RULE_program = 0, RULE_sequence = 1, RULE_operation = 2, RULE_op = 3, 
-		RULE_function = 4, RULE_subop = 5;
+		RULE_program = 0, RULE_operation = 1, RULE_op = 2, RULE_function = 3, 
+		RULE_subop = 4, RULE_preprocessor_command = 5;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "sequence", "operation", "op", "function", "subop"
+			"program", "operation", "op", "function", "subop", "preprocessor_command"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'-'", null, null, null, "'Alpha'", "'Beta'", "'Delta'", "'Zeta'", 
+			null, null, null, null, null, null, "'Alpha'", "'Beta'", "'Delta'", "'Zeta'", 
 			"'Eta'", "'Lambda'", "'Mu'", "'Xi'", "'Omicorn'", "'Pi'", "'Sigma'", 
-			"'Omega'", "'Gamma'", "'Tau'", "'Phi'", "'Chi'", "'|'", "'^'", "'\"'", 
-			"'->'", "'['", "']'"
+			"'Omega'", "'Gamma'", "'Tau'", "'Phi'", "'Chi'", null, null, "'-'", "'/'", 
+			"'#'", "':'", "';'", "'|'", "'^'", "'\"'", "'->'", "'['", "']'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, "ARGUMENT", "STRING", "POINTER", "ALPHA", "BETA", "DELTA", 
-			"ZETA", "ETA", "LAMBDA", "MU", "XI", "OMICORN", "PI", "SIGMA", "OMEGA", 
-			"GAMMA", "TAU", "PHI", "CHI", "PIPE", "TICK", "QUOTE", "ARROW", "LBRACKET", 
-			"RBRACKET", "TEXT", "NUMBER", "WS"
+			null, "ARGUMENT", "STRING", "POINTER", "NUMBER", "COMMENT", "ALPHA", 
+			"BETA", "DELTA", "ZETA", "ETA", "LAMBDA", "MU", "XI", "OMICORN", "PI", 
+			"SIGMA", "OMEGA", "GAMMA", "TAU", "PHI", "CHI", "PREPROCESSNAME", "PREPROCESSARG", 
+			"DASH", "SLASH", "POUND", "COLON", "SEMICOLON", "PIPE", "TICK", "QUOTE", 
+			"ARROW", "LBRACKET", "RBRACKET", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -99,15 +101,22 @@ public class WandlabParser extends Parser {
 	}
 
 	public static class ProgramContext extends ParserRuleContext {
-		public OperationContext operation() {
-			return getRuleContext(OperationContext.class,0);
-		}
 		public TerminalNode EOF() { return getToken(WandlabParser.EOF, 0); }
-		public List<SequenceContext> sequence() {
-			return getRuleContexts(SequenceContext.class);
+		public List<Preprocessor_commandContext> preprocessor_command() {
+			return getRuleContexts(Preprocessor_commandContext.class);
 		}
-		public SequenceContext sequence(int i) {
-			return getRuleContext(SequenceContext.class,i);
+		public Preprocessor_commandContext preprocessor_command(int i) {
+			return getRuleContext(Preprocessor_commandContext.class,i);
+		}
+		public List<OperationContext> operation() {
+			return getRuleContexts(OperationContext.class);
+		}
+		public OperationContext operation(int i) {
+			return getRuleContext(OperationContext.class,i);
+		}
+		public List<TerminalNode> DASH() { return getTokens(WandlabParser.DASH); }
+		public TerminalNode DASH(int i) {
+			return getToken(WandlabParser.DASH, i);
 		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -118,63 +127,56 @@ public class WandlabParser extends Parser {
 	public final ProgramContext program() throws RecognitionException {
 		ProgramContext _localctx = new ProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_program);
+		int _la;
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(15);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(12);
-					sequence();
-					}
-					} 
+			_la = _input.LA(1);
+			while (_la==POUND) {
+				{
+				{
+				setState(12);
+				preprocessor_command();
+				}
 				}
 				setState(17);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+				_la = _input.LA(1);
 			}
-			setState(18);
-			operation();
-			setState(19);
+			setState(28);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ALPHA) | (1L << BETA) | (1L << DELTA) | (1L << ZETA) | (1L << ETA) | (1L << LAMBDA) | (1L << MU) | (1L << XI) | (1L << OMICORN) | (1L << PI) | (1L << SIGMA) | (1L << OMEGA))) != 0)) {
+				{
+				{
+				setState(18);
+				operation();
+				setState(23);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==DASH) {
+					{
+					{
+					setState(19);
+					match(DASH);
+					setState(20);
+					operation();
+					}
+					}
+					setState(25);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				}
+				}
+				setState(30);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(31);
 			match(EOF);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class SequenceContext extends ParserRuleContext {
-		public OperationContext operation() {
-			return getRuleContext(OperationContext.class,0);
-		}
-		public SequenceContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_sequence; }
-	}
-
-	public final SequenceContext sequence() throws RecognitionException {
-		SequenceContext _localctx = new SequenceContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_sequence);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(21);
-			operation();
-			setState(22);
-			match(T__0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -203,19 +205,19 @@ public class WandlabParser extends Parser {
 
 	public final OperationContext operation() throws RecognitionException {
 		OperationContext _localctx = new OperationContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_operation);
+		enterRule(_localctx, 2, RULE_operation);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
+			setState(33);
 			op();
-			setState(26);
+			setState(35);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==TICK) {
 				{
-				setState(25);
+				setState(34);
 				subop();
 				}
 			}
@@ -265,148 +267,148 @@ public class WandlabParser extends Parser {
 
 	public final OpContext op() throws RecognitionException {
 		OpContext _localctx = new OpContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_op);
+		enterRule(_localctx, 4, RULE_op);
 		try {
-			setState(68);
+			setState(77);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ALPHA:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(28);
+				setState(37);
 				match(ALPHA);
 				}
 				break;
 			case BETA:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(29);
+				setState(38);
 				match(BETA);
 				}
 				break;
 			case DELTA:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(30);
+				setState(39);
 				match(DELTA);
-				setState(31);
+				setState(40);
 				match(PIPE);
-				setState(32);
+				setState(41);
 				match(ARGUMENT);
 				}
 				break;
 			case ZETA:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(33);
+				setState(42);
 				match(ZETA);
-				setState(34);
+				setState(43);
 				match(PIPE);
-				setState(35);
+				setState(44);
 				match(ARGUMENT);
-				setState(36);
+				setState(45);
 				match(PIPE);
-				setState(37);
+				setState(46);
 				match(ARGUMENT);
 				}
 				break;
 			case ETA:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(38);
+				setState(47);
 				match(ETA);
-				setState(39);
+				setState(48);
 				match(PIPE);
-				setState(40);
+				setState(49);
 				match(ARGUMENT);
-				setState(41);
+				setState(50);
 				match(PIPE);
-				setState(42);
+				setState(51);
 				match(ARGUMENT);
 				}
 				break;
 			case LAMBDA:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(43);
+				setState(52);
 				match(LAMBDA);
-				setState(44);
+				setState(53);
 				function();
 				}
 				break;
 			case MU:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(45);
+				setState(54);
 				match(MU);
-				setState(46);
+				setState(55);
 				match(PIPE);
-				setState(47);
+				setState(56);
 				match(ARGUMENT);
-				setState(48);
+				setState(57);
 				match(PIPE);
-				setState(49);
+				setState(58);
 				match(ARGUMENT);
 				}
 				break;
 			case XI:
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(50);
+				setState(59);
 				match(XI);
-				setState(51);
+				setState(60);
 				match(PIPE);
-				setState(52);
+				setState(61);
 				match(ARGUMENT);
-				setState(53);
+				setState(62);
 				match(PIPE);
-				setState(54);
+				setState(63);
 				match(ARGUMENT);
 				}
 				break;
 			case OMICORN:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(55);
+				setState(64);
 				match(OMICORN);
-				setState(56);
+				setState(65);
 				match(PIPE);
-				setState(57);
+				setState(66);
 				match(ARGUMENT);
 				}
 				break;
 			case PI:
 				enterOuterAlt(_localctx, 10);
 				{
-				setState(58);
+				setState(67);
 				match(PI);
-				setState(59);
+				setState(68);
 				match(PIPE);
-				setState(60);
+				setState(69);
 				match(ARGUMENT);
-				setState(61);
+				setState(70);
 				match(PIPE);
-				setState(62);
+				setState(71);
 				match(ARGUMENT);
 				}
 				break;
 			case SIGMA:
 				enterOuterAlt(_localctx, 11);
 				{
-				setState(63);
+				setState(72);
 				match(SIGMA);
-				setState(64);
+				setState(73);
 				function();
 				}
 				break;
 			case OMEGA:
 				enterOuterAlt(_localctx, 12);
 				{
-				setState(65);
+				setState(74);
 				match(OMEGA);
-				setState(66);
+				setState(75);
 				match(PIPE);
-				setState(67);
+				setState(76);
 				match(ARGUMENT);
 				}
 				break;
@@ -427,15 +429,16 @@ public class WandlabParser extends Parser {
 
 	public static class FunctionContext extends ParserRuleContext {
 		public TerminalNode LBRACKET() { return getToken(WandlabParser.LBRACKET, 0); }
+		public List<OperationContext> operation() {
+			return getRuleContexts(OperationContext.class);
+		}
+		public OperationContext operation(int i) {
+			return getRuleContext(OperationContext.class,i);
+		}
 		public TerminalNode RBRACKET() { return getToken(WandlabParser.RBRACKET, 0); }
-		public OperationContext operation() {
-			return getRuleContext(OperationContext.class,0);
-		}
-		public List<SequenceContext> sequence() {
-			return getRuleContexts(SequenceContext.class);
-		}
-		public SequenceContext sequence(int i) {
-			return getRuleContext(SequenceContext.class,i);
+		public List<TerminalNode> DASH() { return getTokens(WandlabParser.DASH); }
+		public TerminalNode DASH(int i) {
+			return getToken(WandlabParser.DASH, i);
 		}
 		public FunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -445,41 +448,32 @@ public class WandlabParser extends Parser {
 
 	public final FunctionContext function() throws RecognitionException {
 		FunctionContext _localctx = new FunctionContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_function);
+		enterRule(_localctx, 6, RULE_function);
 		int _la;
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(79);
 			match(LBRACKET);
-			setState(78);
+			setState(80);
+			operation();
+			setState(85);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ALPHA) | (1L << BETA) | (1L << DELTA) | (1L << ZETA) | (1L << ETA) | (1L << LAMBDA) | (1L << MU) | (1L << XI) | (1L << OMICORN) | (1L << PI) | (1L << SIGMA) | (1L << OMEGA))) != 0)) {
+			while (_la==DASH) {
 				{
-				setState(74);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-					if ( _alt==1 ) {
-						{
-						{
-						setState(71);
-						sequence();
-						}
-						} 
-					}
-					setState(76);
-					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-				}
-				setState(77);
+				{
+				setState(81);
+				match(DASH);
+				setState(82);
 				operation();
 				}
+				}
+				setState(87);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
 			}
-
-			setState(80);
+			setState(88);
 			match(RBRACKET);
 			}
 		}
@@ -510,44 +504,44 @@ public class WandlabParser extends Parser {
 
 	public final SubopContext subop() throws RecognitionException {
 		SubopContext _localctx = new SubopContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_subop);
+		enterRule(_localctx, 8, RULE_subop);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
+			setState(90);
 			match(TICK);
-			setState(91);
+			setState(99);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case GAMMA:
 				{
-				setState(83);
+				setState(91);
 				match(GAMMA);
-				setState(84);
+				setState(92);
 				match(PIPE);
-				setState(85);
+				setState(93);
 				match(ARGUMENT);
 				}
 				break;
 			case TAU:
 				{
-				setState(86);
+				setState(94);
 				match(TAU);
-				setState(87);
+				setState(95);
 				match(PIPE);
-				setState(88);
+				setState(96);
 				match(ARGUMENT);
 				}
 				break;
 			case PHI:
 				{
-				setState(89);
+				setState(97);
 				match(PHI);
 				}
 				break;
 			case CHI:
 				{
-				setState(90);
+				setState(98);
 				match(CHI);
 				}
 				break;
@@ -567,32 +561,102 @@ public class WandlabParser extends Parser {
 		return _localctx;
 	}
 
+	public static class Preprocessor_commandContext extends ParserRuleContext {
+		public TerminalNode POUND() { return getToken(WandlabParser.POUND, 0); }
+		public TerminalNode PREPROCESSNAME() { return getToken(WandlabParser.PREPROCESSNAME, 0); }
+		public TerminalNode COLON() { return getToken(WandlabParser.COLON, 0); }
+		public List<TerminalNode> PREPROCESSARG() { return getTokens(WandlabParser.PREPROCESSARG); }
+		public TerminalNode PREPROCESSARG(int i) {
+			return getToken(WandlabParser.PREPROCESSARG, i);
+		}
+		public TerminalNode SEMICOLON() { return getToken(WandlabParser.SEMICOLON, 0); }
+		public List<TerminalNode> PIPE() { return getTokens(WandlabParser.PIPE); }
+		public TerminalNode PIPE(int i) {
+			return getToken(WandlabParser.PIPE, i);
+		}
+		public Preprocessor_commandContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_preprocessor_command; }
+	}
+
+	public final Preprocessor_commandContext preprocessor_command() throws RecognitionException {
+		Preprocessor_commandContext _localctx = new Preprocessor_commandContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_preprocessor_command);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(101);
+			match(POUND);
+			setState(102);
+			match(PREPROCESSNAME);
+			setState(103);
+			match(COLON);
+			setState(104);
+			match(PREPROCESSARG);
+			setState(109);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			while (_la==PIPE) {
+				{
+				{
+				setState(105);
+				match(PIPE);
+				setState(106);
+				match(PREPROCESSARG);
+				}
+				}
+				setState(111);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+			}
+			setState(112);
+			match(SEMICOLON);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37`\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\7\2\20\n\2\f\2\16\2\23\13\2\3\2"+
-		"\3\2\3\2\3\3\3\3\3\3\3\4\3\4\5\4\35\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
-		"\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5G\n\5"+
-		"\3\6\3\6\7\6K\n\6\f\6\16\6N\13\6\3\6\5\6Q\n\6\3\6\3\6\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\5\7^\n\7\3\7\2\2\b\2\4\6\b\n\f\2\2\2k\2\21\3\2\2"+
-		"\2\4\27\3\2\2\2\6\32\3\2\2\2\bF\3\2\2\2\nH\3\2\2\2\fT\3\2\2\2\16\20\5"+
-		"\4\3\2\17\16\3\2\2\2\20\23\3\2\2\2\21\17\3\2\2\2\21\22\3\2\2\2\22\24\3"+
-		"\2\2\2\23\21\3\2\2\2\24\25\5\6\4\2\25\26\7\2\2\3\26\3\3\2\2\2\27\30\5"+
-		"\6\4\2\30\31\7\3\2\2\31\5\3\2\2\2\32\34\5\b\5\2\33\35\5\f\7\2\34\33\3"+
-		"\2\2\2\34\35\3\2\2\2\35\7\3\2\2\2\36G\7\7\2\2\37G\7\b\2\2 !\7\t\2\2!\""+
-		"\7\27\2\2\"G\7\4\2\2#$\7\n\2\2$%\7\27\2\2%&\7\4\2\2&\'\7\27\2\2\'G\7\4"+
-		"\2\2()\7\13\2\2)*\7\27\2\2*+\7\4\2\2+,\7\27\2\2,G\7\4\2\2-.\7\f\2\2.G"+
-		"\5\n\6\2/\60\7\r\2\2\60\61\7\27\2\2\61\62\7\4\2\2\62\63\7\27\2\2\63G\7"+
-		"\4\2\2\64\65\7\16\2\2\65\66\7\27\2\2\66\67\7\4\2\2\678\7\27\2\28G\7\4"+
-		"\2\29:\7\17\2\2:;\7\27\2\2;G\7\4\2\2<=\7\20\2\2=>\7\27\2\2>?\7\4\2\2?"+
-		"@\7\27\2\2@G\7\4\2\2AB\7\21\2\2BG\5\n\6\2CD\7\22\2\2DE\7\27\2\2EG\7\4"+
-		"\2\2F\36\3\2\2\2F\37\3\2\2\2F \3\2\2\2F#\3\2\2\2F(\3\2\2\2F-\3\2\2\2F"+
-		"/\3\2\2\2F\64\3\2\2\2F9\3\2\2\2F<\3\2\2\2FA\3\2\2\2FC\3\2\2\2G\t\3\2\2"+
-		"\2HP\7\33\2\2IK\5\4\3\2JI\3\2\2\2KN\3\2\2\2LJ\3\2\2\2LM\3\2\2\2MO\3\2"+
-		"\2\2NL\3\2\2\2OQ\5\6\4\2PL\3\2\2\2PQ\3\2\2\2QR\3\2\2\2RS\7\34\2\2S\13"+
-		"\3\2\2\2T]\7\30\2\2UV\7\23\2\2VW\7\27\2\2W^\7\4\2\2XY\7\24\2\2YZ\7\27"+
-		"\2\2Z^\7\4\2\2[^\7\25\2\2\\^\7\26\2\2]U\3\2\2\2]X\3\2\2\2][\3\2\2\2]\\"+
-		"\3\2\2\2^\r\3\2\2\2\b\21\34FLP]";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%u\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\7\2\20\n\2\f\2\16\2\23\13\2\3\2\3"+
+		"\2\3\2\7\2\30\n\2\f\2\16\2\33\13\2\7\2\35\n\2\f\2\16\2 \13\2\3\2\3\2\3"+
+		"\3\3\3\5\3&\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4P\n\4\3\5\3\5\3\5\3\5\7\5V\n\5"+
+		"\f\5\16\5Y\13\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6f\n\6\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\7\7n\n\7\f\7\16\7q\13\7\3\7\3\7\3\7\2\2\b\2\4\6"+
+		"\b\n\f\2\2\2\u0082\2\21\3\2\2\2\4#\3\2\2\2\6O\3\2\2\2\bQ\3\2\2\2\n\\\3"+
+		"\2\2\2\fg\3\2\2\2\16\20\5\f\7\2\17\16\3\2\2\2\20\23\3\2\2\2\21\17\3\2"+
+		"\2\2\21\22\3\2\2\2\22\36\3\2\2\2\23\21\3\2\2\2\24\31\5\4\3\2\25\26\7\32"+
+		"\2\2\26\30\5\4\3\2\27\25\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32\3\2"+
+		"\2\2\32\35\3\2\2\2\33\31\3\2\2\2\34\24\3\2\2\2\35 \3\2\2\2\36\34\3\2\2"+
+		"\2\36\37\3\2\2\2\37!\3\2\2\2 \36\3\2\2\2!\"\7\2\2\3\"\3\3\2\2\2#%\5\6"+
+		"\4\2$&\5\n\6\2%$\3\2\2\2%&\3\2\2\2&\5\3\2\2\2\'P\7\b\2\2(P\7\t\2\2)*\7"+
+		"\n\2\2*+\7\37\2\2+P\7\3\2\2,-\7\13\2\2-.\7\37\2\2./\7\3\2\2/\60\7\37\2"+
+		"\2\60P\7\3\2\2\61\62\7\f\2\2\62\63\7\37\2\2\63\64\7\3\2\2\64\65\7\37\2"+
+		"\2\65P\7\3\2\2\66\67\7\r\2\2\67P\5\b\5\289\7\16\2\29:\7\37\2\2:;\7\3\2"+
+		"\2;<\7\37\2\2<P\7\3\2\2=>\7\17\2\2>?\7\37\2\2?@\7\3\2\2@A\7\37\2\2AP\7"+
+		"\3\2\2BC\7\20\2\2CD\7\37\2\2DP\7\3\2\2EF\7\21\2\2FG\7\37\2\2GH\7\3\2\2"+
+		"HI\7\37\2\2IP\7\3\2\2JK\7\22\2\2KP\5\b\5\2LM\7\23\2\2MN\7\37\2\2NP\7\3"+
+		"\2\2O\'\3\2\2\2O(\3\2\2\2O)\3\2\2\2O,\3\2\2\2O\61\3\2\2\2O\66\3\2\2\2"+
+		"O8\3\2\2\2O=\3\2\2\2OB\3\2\2\2OE\3\2\2\2OJ\3\2\2\2OL\3\2\2\2P\7\3\2\2"+
+		"\2QR\7#\2\2RW\5\4\3\2ST\7\32\2\2TV\5\4\3\2US\3\2\2\2VY\3\2\2\2WU\3\2\2"+
+		"\2WX\3\2\2\2XZ\3\2\2\2YW\3\2\2\2Z[\7$\2\2[\t\3\2\2\2\\e\7 \2\2]^\7\24"+
+		"\2\2^_\7\37\2\2_f\7\3\2\2`a\7\25\2\2ab\7\37\2\2bf\7\3\2\2cf\7\26\2\2d"+
+		"f\7\27\2\2e]\3\2\2\2e`\3\2\2\2ec\3\2\2\2ed\3\2\2\2f\13\3\2\2\2gh\7\34"+
+		"\2\2hi\7\30\2\2ij\7\35\2\2jo\7\31\2\2kl\7\37\2\2ln\7\31\2\2mk\3\2\2\2"+
+		"nq\3\2\2\2om\3\2\2\2op\3\2\2\2pr\3\2\2\2qo\3\2\2\2rs\7\36\2\2s\r\3\2\2"+
+		"\2\n\21\31\36%OWeo";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
