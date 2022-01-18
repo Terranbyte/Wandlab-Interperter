@@ -107,6 +107,18 @@ public partial class WandlabBaseListener : IWandlabListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPreprocessor_command([NotNull] WandlabParser.Preprocessor_commandContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="WandlabParser.preprocessor_arg"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterPreprocessor_arg([NotNull] WandlabParser.Preprocessor_argContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="WandlabParser.preprocessor_arg"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitPreprocessor_arg([NotNull] WandlabParser.Preprocessor_argContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

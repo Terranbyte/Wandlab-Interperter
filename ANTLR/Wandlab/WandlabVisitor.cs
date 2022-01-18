@@ -67,4 +67,10 @@ public interface IWandlabVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitPreprocessor_command([NotNull] WandlabParser.Preprocessor_commandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="WandlabParser.preprocessor_arg"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPreprocessor_arg([NotNull] WandlabParser.Preprocessor_argContext context);
 }

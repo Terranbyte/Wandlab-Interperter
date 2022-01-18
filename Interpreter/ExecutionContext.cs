@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wandlab_interpreter.Interpreter.Runes;
 
 namespace Wandlab_interpreter.Interpreter
 {
     public class ExecutionContext
     {
+        public RuneTable runes;
         public ValueType workingDataType;
 
-        public ExecutionContext CreateNew()
+        public ExecutionContext(int runeTableSize)
         {
-            ExecutionContext ctx = new ExecutionContext();
-            int temp = (int)workingDataType;
-            ctx.workingDataType = (ValueType)temp;
-
-            return ctx;
+            runes = new RuneTable(runeTableSize);
+            workingDataType = ValueType.NONE;
         }
     }
 }

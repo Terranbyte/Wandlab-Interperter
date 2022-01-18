@@ -17,6 +17,18 @@ namespace Wandlab_interpreter.Interpreter.Spell
             _value = value;
         }
 
+        public MultiValue(object value)
+        {
+            if (value is string)
+                _type = ValueType.STRING;
+            else if (value is int)
+                _type = ValueType.NUMBER;
+            else if (value == null)
+                _type = ValueType.NONE;
+
+            _value = value;
+        }
+
         public ValueType GetValueType()
         {
             return _type;

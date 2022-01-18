@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,28 +13,49 @@ namespace Wandlab_interpreter.Interpreter
 {
     internal class WandlabInterpreter : WandlabBaseVisitor<object>
     {
-        private int _indentLevel = 0;
-
         public override object VisitProgram([NotNull] ProgramContext context)
         {
-            List<ISpell> _program = new List<ISpell>();
+            List<SuperSpell> _program = new List<SuperSpell>();
+
+            foreach (Preprocessor_commandContext command in context.preprocessor_command())
+            {
+                VisitPreprocessor_command(command);
+            }
 
             foreach (OperationContext operation in context.operation())
             {
-                _program.Add((ISpell)VisitOperation(operation));
+                _program.Add((SuperSpell)VisitOperation(operation));
             }
 
             return _program;
         }
 
+        public override object VisitPreprocessor_command([NotNull] Preprocessor_commandContext context)
+        {
+            Console.WriteLine(context.GetText());
+
+            foreach (Preprocessor_argContext arg in context.preprocessor_arg())
+            {
+                VisitPreprocessor_arg(arg);
+            }
+
+            return null;
+        }
+
+        public override object VisitPreprocessor_arg([NotNull] Preprocessor_argContext context)
+        {
+            Console.WriteLine(context.GetText());
+            return null;
+        }
+
         public override object VisitOperation([NotNull] OperationContext context)
         {
-            ISpell spell;
+            SuperSpell spell;
             spell = (SuperSpell)VisitOp(context.op());
             SubopContext subop = context.subop();
 
             if (subop != null && spell != null && !subop.IsEmpty)
-                ((SuperSpell)spell).SetRespell((Respell)VisitSubop(subop));
+                spell.SetRespell((Respell)VisitSubop(subop));
 
             return spell;
         }
@@ -42,11 +64,18 @@ namespace Wandlab_interpreter.Interpreter
         {
             string[] opText = context.GetText().Split('|');
             SuperSpell spell = null;
+            FunctionContext function = context.function();
+
+            if (function != null)
+            {
+                spell = new LambdaSpell((List<SuperSpell>)VisitFunction(context.function()));
+                return spell;
+            }
 
             switch (opText[0])
             {
                 case "Xi":
-                case "Omicorn":
+                case "Omicron":
                     spell = new OmicronSpell(Convert.ToInt32(opText[1]));
                     break;
                 case "Omega":
@@ -59,9 +88,8 @@ namespace Wandlab_interpreter.Interpreter
                     break;
                 case "Beta":
                     break;
-                case "Lambda":
-                    spell = new LambdaSpell(((List<ISpell>)VisitFunction(context.function())).ToArray());
-                    break;
+                //case "Lambda":
+                //    break;
                 case "Sigma":
                     break;
                 case "Delta":
@@ -79,34 +107,48 @@ namespace Wandlab_interpreter.Interpreter
 
         public override object VisitSubop([NotNull] SubopContext context)
         {
+            Respell spell = null;
             string[] opText = context.GetText().Split('|');
 
             switch (opText[0])
             {
                 case "Gamma":
+                    MultiValue arg = new MultiValue(null);
+                    int.TryParse(opText[1], out int argInt);
+
+                    if (opText[1].StartsWith("\""))
+                        arg = new MultiValue(ValueType.STRING, opText[1]);
+                    else if (opText[1].StartsWith("->"))
+                        arg = new MultiValue(ValueType.POINTER, argInt);
+                    else
+                        arg = new MultiValue(ValueType.NUMBER, argInt);
+
+                    spell = new GammaSpell(arg);
+                    break;
                 case "Chi":
+                    spell = new ChiSpell(Convert.ToInt32(opText[1]));
+                    break;
                 case "Tau":
+                    break;
                 case "Phi":
+                    break;
                 default:
                     break;
             }
 
-            Console.Write(context.GetText());
-            return null;
+            return spell;
         }
 
         public override object VisitFunction([NotNull] FunctionContext context)
         {
-            List<ISpell> _program = new List<ISpell>();
+            List<SuperSpell> _program = new List<SuperSpell>();
 
             foreach (OperationContext operation in context.operation())
             {
-                _indentLevel += 1;
-                _program.Add((ISpell)VisitOperation(operation));
+                _program.Add((SuperSpell)VisitOperation(operation));
             }
-            _indentLevel -= 1;
 
-            return null;
+            return _program;
         }
     }
 }

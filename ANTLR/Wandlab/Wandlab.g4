@@ -14,10 +14,11 @@ op: ALPHA
     | LAMBDA function
     | MU PIPE ARGUMENT PIPE ARGUMENT
     | XI PIPE ARGUMENT PIPE ARGUMENT
-    | OMICORN PIPE ARGUMENT
+    | OMICRON PIPE ARGUMENT
     | PI PIPE ARGUMENT PIPE ARGUMENT
     | SIGMA function
     | OMEGA PIPE ARGUMENT
+    | OMEGA
     ;
 
 function: LBRACKET operation (DASH operation)* RBRACKET
@@ -27,11 +28,15 @@ subop: TICK
     (GAMMA PIPE ARGUMENT
     | TAU PIPE ARGUMENT
     | PHI
-    | CHI)
+    | CHI PIPE ARGUMENT)
     ;
 
-preprocessor_command : POUND PREPROCESSNAME COLON PREPROCESSARG (PIPE PREPROCESSARG)* SEMICOLON
+// Preprocessor
+preprocessor_command : POUND PREPROCESSNAME COLON preprocessor_arg (PIPE preprocessor_arg)* SEMICOLON
     ;
+
+preprocessor_arg : ARGUMENT ;
+PREPROCESSNAME : [A-Z_]+ ;
 
 ARGUMENT : STRING | POINTER | NUMBER ;
 STRING : QUOTE .*? QUOTE ;
@@ -49,7 +54,7 @@ ETA : 'Eta' ;
 LAMBDA : 'Lambda' ;
 MU : 'Mu' ;
 XI : 'Xi' ;
-OMICORN : 'Omicorn' ;
+OMICRON : 'Omicron' ;
 PI : 'Pi' ;
 SIGMA : 'Sigma' ;
 OMEGA : 'Omega' ;
@@ -59,10 +64,6 @@ GAMMA : 'Gamma' ;
 TAU : 'Tau' ;
 PHI : 'Phi' ;
 CHI : 'Chi' ;
-
-// Preprocessor
-PREPROCESSNAME : [A-Z_]+ ;
-PREPROCESSARG : (STRING | NUMBER) ;
 
 DASH : '-' ;
 SLASH : '/' ;

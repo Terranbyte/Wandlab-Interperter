@@ -8,27 +8,38 @@ using Wandlab_interpreter.Interpreter.Runes;
 
 namespace Wandlab_interpreter.Interpreter.Spell
 {
-    public interface ISpell
-    {
-        void Execute(RuneTable runes, ExecutionContext ctx);
-    }
-
-    public abstract class SuperSpell : ISpell
+    public abstract class SuperSpell
     {
         protected Respell _respell;
-        public abstract void Execute(RuneTable runes, ExecutionContext ctx);
+        public abstract void Execute(ExecutionContext ctx);
         public void SetRespell(Respell respell)
         {
             _respell = respell;
         }
     }
 
-    public abstract class Respell : ISpell
+    public abstract class Respell
     {
-        public abstract void Execute(RuneTable runes, ExecutionContext ctx);
+        public abstract object Execute(ExecutionContext ctx);
     }
 
     #region Super spells
+    public class XiSpell : SuperSpell
+    {
+        private MultiValue _arg;
+
+        public XiSpell(MultiValue arg)
+        {
+            _arg = arg;
+        }
+
+        public override void Execute(ExecutionContext ctx)
+        {
+            if (_respell is GammaSpell || _respell is ChiSpell)
+                _arg = (MultiValue)_respell.Execute(ctx);
+        }
+    }
+
     public class OmicronSpell : SuperSpell
     {
         private int _arg;
@@ -38,27 +49,25 @@ namespace Wandlab_interpreter.Interpreter.Spell
             _arg = arg;
         }
 
-        public override void Execute(RuneTable runes, ExecutionContext ctx)
+        public override void Execute(ExecutionContext ctx)
         {
+            Console.Write("Input: ");
             string input = Console.ReadLine();
             int res = 0;
 
             switch (ctx.workingDataType)
             {
-                case ValueType.STRING:
-                    runes[_arg].SetValue(ValueType.STRING, input);
-                    break;
+                case ValueType.NONE:
                 case ValueType.POINTER:
-                    if (!int.TryParse(input, out res))
-                        throw new FormatException($"Input \"{input}\" couldn't be cast to type \"POINTER\"");
-
-                    runes[_arg].SetValue(ValueType.POINTER, res);
-                    break;
                 case ValueType.NUMBER:
                     if (!int.TryParse(input, out res))
                         throw new FormatException($"Input \"{input}\" couldn't be cast to type \"NUMBER\"");
 
-                    runes[_arg].SetValue(ValueType.NUMBER, res);
+                    ctx.runes[_arg].SetValue(ValueType.NUMBER, res);
+                    ctx.workingDataType = ValueType.NUMBER; // Set in case of workingDataType being ValueType.NONE or ValueType.POINTER
+                    break;
+                case ValueType.STRING:
+                    ctx.runes[_arg].SetValue(ValueType.STRING, input);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"Encountered unexpected working type \"{ctx.workingDataType}\" ({(int)ctx.workingDataType})");
@@ -68,18 +77,20 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
     public class LambdaSpell : SuperSpell
     {
-        private ISpell[] _lambdaBody;
+        private List<SuperSpell> _lambdaBody;
 
-        public LambdaSpell(ISpell[] body)
+        public LambdaSpell(List<SuperSpell> body)
         {
             _lambdaBody = body;
         }
-
-        public override void Execute(RuneTable runes, ExecutionContext ctx)
+        public override void Execute(ExecutionContext ctx)
         {
-            foreach (ISpell spell in _lambdaBody)
+            foreach (SuperSpell spell in _lambdaBody)
             {
-                spell.Execute(runes, ctx.CreateNew());
+                if (spell == null)
+                    continue;
+
+                spell.Execute(ctx);
             }
         }
     }
@@ -87,6 +98,35 @@ namespace Wandlab_interpreter.Interpreter.Spell
     #endregion
 
     #region Respells
+    public class GammaSpell : Respell
+    {
+        private MultiValue _arg;
 
+        public GammaSpell(MultiValue arg)
+        {
+            _arg = arg;
+        }
+
+        public override object Execute(ExecutionContext ctx)
+        {
+            return _arg;
+        }
+    }
+
+    public class ChiSpell : Respell
+    {
+        private int _arg;
+
+        public ChiSpell(int arg)
+        {
+            _arg = arg;
+        }
+
+        public override object Execute(ExecutionContext ctx)
+        {
+            Random r = new Random();
+            return new MultiValue(ValueType.NUMBER, r.Next(_arg + 1));
+        }
+    }
     #endregion
 }
