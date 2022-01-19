@@ -53,7 +53,8 @@ namespace Wandlab_interpreter.Interpreter.Runes
 
     public class RuneTable : IReadOnlyList<Rune>
     {
-        public Rune this[int i] => ResolvePointer(i);
+        public Rune this[int i] => this[i, false];
+        public Rune this[int i, bool raw] => ResolvePointer(i, raw);
 
         public int Count => throw new NotImplementedException();
 
@@ -64,7 +65,7 @@ namespace Wandlab_interpreter.Interpreter.Runes
             _runes = new Rune[size];
             for (int i = 0; i < size; i++)
             {
-                _runes[i] = new Rune();
+                _runes[i] = new Rune(i);
             }
         }
 
@@ -78,15 +79,15 @@ namespace Wandlab_interpreter.Interpreter.Runes
             return GetEnumerator();
         }
 
-        private Rune ResolvePointer(int index)
+        private Rune ResolvePointer(int index, bool raw)
         {
             int i = 0;
             Rune rune = _runes[index];
 
-            while (rune.GetValueType() == ValueType.POINTER)
+            while (rune.GetValueType() == ValueType.POINTER && !raw)
             {
                 i++;
-                rune = _runes[(int)rune.GetValue(ValueType.POINTER)];
+                rune = _runes[(int)rune.GetValue(ValueType.NONE)];
 
                 if (i >= 64)
                 {

@@ -55,7 +55,10 @@ namespace Wandlab_interpreter.Interpreter
             SubopContext subop = context.subop();
 
             if (subop != null && spell != null && !subop.IsEmpty)
-                spell.SetRespell((Respell)VisitSubop(subop));
+            {
+                object[] temp = (object[])VisitSubop(subop);
+                spell.SetRespell((Respells)temp[0], (MultiValue)temp[1]);
+            }
 
             return spell;
         }
@@ -68,38 +71,46 @@ namespace Wandlab_interpreter.Interpreter
 
             if (function != null)
             {
-                spell = new LambdaSpell((List<SuperSpell>)VisitFunction(context.function()));
+                if (opText.Contains("Lambda"))
+                    spell = new LambdaSpell((List<SuperSpell>)VisitFunction(context.function()));
+                else
+                    spell = new SigmaSpell((List<SuperSpell>)VisitFunction(context.function()));
                 return spell;
             }
 
             switch (opText[0])
             {
                 case "Xi":
-                    bool intOrStr = int.TryParse(opText[2], out int res);
-
                     if (opText.Length > 2)
-                        spell = new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(intOrStr ? ValueType.NUMBER : ValueType.STRING, intOrStr ? (object)res : (object)opText[2]));
+                        spell = new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(int.TryParse(opText[2], out int res) ? (object)res : (object)opText[2]));
                     else
                         spell = new XiSpell(Convert.ToInt32(opText[1]), MultiValue.NULL);
                     break;
                 case "Omicron":
-                    spell = new OmicronSpell(Convert.ToInt32(opText[1]));
+                    spell = new OmicronSpell(MultiValue.Parse(opText[1]));
                     break;
                 case "Omega":
-                    spell = new OmegaSpell(opText.Length > 1 ? Convert.ToInt32(opText[1]) : -1);
+                    spell = new OmegaSpell(opText.Length > 1 ? MultiValue.Parse(opText[1]) : MultiValue.NULL);
                     break;
                 case "Mu":
+                    spell = new MuSpell(MultiValue.Parse(opText[1]), MultiValue.Parse(opText[2]));
                     break;
                 case "Pi":
+                    spell = new PiSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                     break;
-                case "Aplha":
+                case "Alpha":
+                    spell = new AlphaSpell();
                     break;
                 case "Beta":
+                    spell = new BetaSpell();
+                    break;
+                case "Theta":
+                    spell = new ThetaSpell();
                     break;
                 //case "Lambda":
                 //    break;
-                case "Sigma":
-                    break;
+                //case "Sigma":
+                //    break;
                 case "Delta":
                     break;
                 case "Eta":
@@ -115,37 +126,36 @@ namespace Wandlab_interpreter.Interpreter
 
         public override object VisitSubop([NotNull] SubopContext context)
         {
-            Respell spell = null;
+            object[] returnObjects = new object[2];
+            Respells respell = Respells.None;
+            MultiValue arg = MultiValue.NULL;
             string[] opText = context.GetText().Substring(1).Split('|');
 
             switch (opText[0])
             {
                 case "Gamma":
-                    MultiValue arg = new MultiValue(null);
-                    int.TryParse(opText[1], out int argInt);
-
-                    if (opText[1].StartsWith("\""))
-                        arg = new MultiValue(ValueType.STRING, opText[1].Substring(1, opText[1].Length - 2));
-                    else if (opText[1].StartsWith("->"))
-                        arg = new MultiValue(ValueType.POINTER, int.Parse(opText[1].Substring(2)));
-                    else
-                        arg = new MultiValue(ValueType.NUMBER, argInt);
-
-                    spell = new GammaSpell(arg);
+                    respell = Respells.Gamma;
+                    arg = MultiValue.Parse(opText[1]);
                     break;
                 case "Chi":
-                    spell = new ChiSpell(Convert.ToInt32(opText[1]));
+                    respell = Respells.Chi;
+                    arg = MultiValue.Parse(opText[1]);
                     break;
                 case "Tau":
-                    spell = new TauSpell(Convert.ToInt32(opText[1]));
+                    respell = Respells.Tau;
+                    arg = MultiValue.Parse(opText[1]);
                     break;
                 case "Phi":
+                    respell = Respells.Phi;
                     break;
                 default:
                     break;
             }
 
-            return spell;
+            returnObjects[0] = respell;
+            returnObjects[1] = arg;
+
+            return returnObjects;
         }
 
         public override object VisitFunction([NotNull] FunctionContext context)

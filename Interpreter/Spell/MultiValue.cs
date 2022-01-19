@@ -51,5 +51,19 @@ namespace Wandlab_interpreter.Interpreter.Spell
                     throw new ArgumentOutOfRangeException($"MultiValue type \'{_type}\' is not a valid type");
             }
         }
+
+        public static MultiValue Parse(string input)
+        {
+            MultiValue v = new MultiValue(ValueType.STRING, input);
+
+            if (input.StartsWith("\""))
+                v = new MultiValue(ValueType.STRING, input.Substring(1, input.Length - 2));
+            else if (input.StartsWith("->"))
+                v = new MultiValue(ValueType.POINTER, int.Parse(input.Substring(2)));
+            else if (int.TryParse(input, out int res))
+                v = new MultiValue(ValueType.NUMBER, res);
+
+            return v;
+        }
     }
 }

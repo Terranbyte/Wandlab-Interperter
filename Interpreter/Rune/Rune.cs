@@ -10,27 +10,47 @@ namespace Wandlab_interpreter.Interpreter.Runes
 {
     public class Rune
     {
+        private int _index;
         private MultiValue _value;
 
-        public Rune()
+        public Rune(int i)
         {
+            _index = i;
             _value = MultiValue.NULL;
         }
 
         public object GetValue(ValueType typeCast)
         {
-            // If there's a type cast, and the types don't match, and one of the types is string
             if (typeCast != ValueType.NONE && 
-                typeCast != _value.GetValueType() && 
-                ((typeCast | _value.GetValueType()) & ValueType.STRING) == ValueType.STRING)
+                _value.GetValueType() == ValueType.STRING &&
+                typeCast == ValueType.NUMBER)
                 throw new TypeMixingException($"Cannot convert type \'{typeCast}\' to type \'{_value.GetValueType()}\'");
 
-            return _value.GetValue();
+
+            switch (typeCast)
+            {
+                case ValueType.STRING:
+                    return _value.GetValue().ToString();
+                case ValueType.POINTER:
+                    return _index;
+                default:
+                    return _value.GetValue();
+            }
         }
 
         public void SetValue(ValueType type, object value)
         {
             _value = new MultiValue(type, value);
+        }
+
+        public void SetValue(object value)
+        {
+            _value = new MultiValue(value);
+        }
+
+        public MultiValue GetMultiValue()
+        {
+            return _value;
         }
 
         public ValueType GetValueType()

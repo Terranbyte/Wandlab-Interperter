@@ -11,6 +11,7 @@ op: ALPHA
     | DELTA PIPE ARGUMENT
     | ZETA PIPE ARGUMENT PIPE ARGUMENT
     | ETA PIPE ARGUMENT PIPE ARGUMENT
+    | THETA
     | LAMBDA function
     | MU PIPE ARGUMENT PIPE ARGUMENT
     | XI PIPE ARGUMENT PIPE ARGUMENT
@@ -53,6 +54,7 @@ BETA : 'Beta' ;
 DELTA : 'Delta' ;
 ZETA : 'Zeta' ;
 ETA : 'Eta' ;
+THETA : 'Theta' ;
 LAMBDA : 'Lambda' ;
 MU : 'Mu' ;
 XI : 'Xi' ;

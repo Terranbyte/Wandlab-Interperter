@@ -13,4 +13,13 @@ namespace Wandlab_interpreter.Interpreter
         POINTER = 2,
         NUMBER = 3,
     }
+
+    public enum Respells
+    {
+        None = 0,
+        Gamma = 1,
+        Chi = 2,
+        Tau = 3,
+        Phi = 4,
+    }
 }

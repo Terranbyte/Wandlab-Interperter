@@ -18,8 +18,11 @@ namespace Wandlab_interpreter
 
         static void Main(string[] args)
         {
-            //string program = "Omicron|0-Omicron|1-Lambda[Pi|3|->0]^Tau|->1";
-            string program = "Lambda[Omega^Gamma|\"Hello world! \n\"]^Tau|5";
+            //string program = "Lambda[Omega^Gamma|\"Hello world! \n\"]^Tau|5";
+            //string program = "Sigma[Omega^Gamma|1-Omega^Gamma|2-Omega^Gamma|3-Omega^Gamma|4-Omega^Gamma|5]^Tau|10";
+            //string program = "Theta-Xi|0^Gamma|2-Xi|1^Gamma|12-Xi|2^Gamma|30-Pi|0|1-Alpha-Omega|2";
+            string program = "Omicron|0-Omicron|1-Lambda[Pi|2|0]^Tau|->1-Beta-Omega|2";
+
             ICharStream charStream = CharStreams.fromString(program);
             ITokenSource tokenSource = new WandlabLexer(charStream);
             ITokenStream tokenStream = new CommonTokenStream(tokenSource);

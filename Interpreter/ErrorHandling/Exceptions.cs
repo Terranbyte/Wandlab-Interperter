@@ -44,4 +44,42 @@ namespace Wandlab_interpreter.Interpreter.ErrorHandling
         {
         }
     }
+
+    public class IllegalRespellException : Exception
+    {
+        public IllegalRespellException()
+        {
+        }
+
+        public IllegalRespellException(string message) : base(message)
+        {
+        }
+
+        public IllegalRespellException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected IllegalRespellException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
+    public class IllegalTypeException : Exception
+    {
+        public IllegalTypeException()
+        {
+        }
+
+        public IllegalTypeException(string message) : base(message)
+        {
+        }
+
+        public IllegalTypeException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected IllegalTypeException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }
