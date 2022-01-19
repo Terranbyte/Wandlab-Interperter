@@ -1,1 +1,1 @@
-java org.antlr.v4.Tool -visitor %*
+java org.antlr.v4.Tool -visitor -o .\java\ %*

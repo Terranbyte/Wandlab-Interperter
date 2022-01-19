@@ -75,10 +75,18 @@ namespace Wandlab_interpreter.Interpreter
             switch (opText[0])
             {
                 case "Xi":
+                    bool intOrStr = int.TryParse(opText[2], out int res);
+
+                    if (opText.Length > 2)
+                        spell = new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(intOrStr ? ValueType.NUMBER : ValueType.STRING, intOrStr ? (object)res : (object)opText[2]));
+                    else
+                        spell = new XiSpell(Convert.ToInt32(opText[1]), MultiValue.NULL);
+                    break;
                 case "Omicron":
                     spell = new OmicronSpell(Convert.ToInt32(opText[1]));
                     break;
                 case "Omega":
+                    spell = new OmegaSpell(opText.Length > 1 ? Convert.ToInt32(opText[1]) : -1);
                     break;
                 case "Mu":
                     break;
@@ -108,7 +116,7 @@ namespace Wandlab_interpreter.Interpreter
         public override object VisitSubop([NotNull] SubopContext context)
         {
             Respell spell = null;
-            string[] opText = context.GetText().Split('|');
+            string[] opText = context.GetText().Substring(1).Split('|');
 
             switch (opText[0])
             {
@@ -117,9 +125,9 @@ namespace Wandlab_interpreter.Interpreter
                     int.TryParse(opText[1], out int argInt);
 
                     if (opText[1].StartsWith("\""))
-                        arg = new MultiValue(ValueType.STRING, opText[1]);
+                        arg = new MultiValue(ValueType.STRING, opText[1].Substring(1, opText[1].Length - 2));
                     else if (opText[1].StartsWith("->"))
-                        arg = new MultiValue(ValueType.POINTER, argInt);
+                        arg = new MultiValue(ValueType.POINTER, int.Parse(opText[1].Substring(2)));
                     else
                         arg = new MultiValue(ValueType.NUMBER, argInt);
 
@@ -129,6 +137,7 @@ namespace Wandlab_interpreter.Interpreter
                     spell = new ChiSpell(Convert.ToInt32(opText[1]));
                     break;
                 case "Tau":
+                    spell = new TauSpell(Convert.ToInt32(opText[1]));
                     break;
                 case "Phi":
                     break;

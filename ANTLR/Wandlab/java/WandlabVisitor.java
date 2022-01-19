@@ -45,4 +45,10 @@ public interface WandlabVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link WandlabParser#preprocessor_arg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx);
 }

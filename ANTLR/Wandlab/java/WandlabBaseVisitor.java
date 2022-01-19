@@ -52,4 +52,11 @@ public class WandlabBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx) { return visitChildren(ctx); }
 }

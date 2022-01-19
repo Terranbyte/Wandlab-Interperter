@@ -8,6 +8,8 @@ namespace Wandlab_interpreter.Interpreter.Spell
 {
     public class MultiValue
     {
+        public static readonly MultiValue NULL = new MultiValue(ValueType.NONE, null);
+
         private ValueType _type = ValueType.NONE;
         private object _value;
 

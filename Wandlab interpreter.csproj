@@ -59,6 +59,7 @@
     <Compile Include="ANTLR\Wandlab\WandlabBaseVisitor.cs" />
     <Compile Include="Interpreter\Enums.cs" />
     <Compile Include="Interpreter\ErrorHandling\Exceptions.cs" />
+    <Compile Include="Interpreter\ExecutionContext.cs" />
     <Compile Include="Interpreter\Rune\Rune.cs" />
     <Compile Include="Interpreter\Rune\RuneTable.cs" />
     <Compile Include="Interpreter\Spell\MultiValue.cs" />

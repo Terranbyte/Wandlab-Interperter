@@ -11,11 +11,13 @@ namespace Wandlab_interpreter.Interpreter
     {
         public RuneTable runes;
         public ValueType workingDataType;
+        public int programCounter;
 
         public ExecutionContext(int runeTableSize)
         {
             runes = new RuneTable(runeTableSize);
             workingDataType = ValueType.NONE;
+            programCounter = 0;
         }
     }
 }

@@ -18,7 +18,8 @@ namespace Wandlab_interpreter
 
         static void Main(string[] args)
         {
-            string program = "Omicron|0-Omicron|1-Lambda[Pi|3|->0]^Tau|->1";
+            //string program = "Omicron|0-Omicron|1-Lambda[Pi|3|->0]^Tau|->1";
+            string program = "Lambda[Omega^Gamma|\"Hello world! \n\"]^Tau|5";
             ICharStream charStream = CharStreams.fromString(program);
             ITokenSource tokenSource = new WandlabLexer(charStream);
             ITokenStream tokenStream = new CommonTokenStream(tokenSource);
@@ -33,10 +34,12 @@ namespace Wandlab_interpreter
 
             ExecutionContext ctx = new ExecutionContext(1024);
 
-            foreach (SuperSpell spell in spellProgram)
+            while (ctx.programCounter >= 0 && ctx.programCounter < spellProgram.Count)
             {
-                spell.Execute(ctx);
+                spellProgram[ctx.programCounter].Execute(ctx);
             }
+
+            Console.ReadLine();
         }
     }
 

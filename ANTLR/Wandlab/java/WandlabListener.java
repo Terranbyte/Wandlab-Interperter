@@ -66,4 +66,14 @@ public interface WandlabListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link WandlabParser#preprocessor_arg}.
+	 * @param ctx the parse tree
+	 */
+	void enterPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link WandlabParser#preprocessor_arg}.
+	 * @param ctx the parse tree
+	 */
+	void exitPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx);
 }

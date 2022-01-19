@@ -82,6 +82,18 @@ public class WandlabBaseListener implements WandlabListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPreprocessor_command(WandlabParser.Preprocessor_commandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPreprocessor_arg(WandlabParser.Preprocessor_argContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

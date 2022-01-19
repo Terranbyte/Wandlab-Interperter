@@ -14,7 +14,7 @@ namespace Wandlab_interpreter.Interpreter.Runes
 
         public Rune()
         {
-            _value = new MultiValue(ValueType.NONE, null);
+            _value = MultiValue.NULL;
         }
 
         public object GetValue(ValueType typeCast)
