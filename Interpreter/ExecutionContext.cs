@@ -19,5 +19,10 @@ namespace Wandlab_interpreter.Interpreter
             workingDataType = ValueType.NONE;
             programCounter = 0;
         }
+
+        public void OverrideRunes(RuneTable newRunes)
+        {
+            runes = newRunes;
+        }
     }
 }

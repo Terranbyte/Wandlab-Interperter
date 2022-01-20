@@ -92,13 +92,13 @@ namespace Wandlab_interpreter.Interpreter.Spell
     #region Super spells
     public class XiSpell : SuperSpell
     {
-        private int _rune = 0;
-        private MultiValue _value;
+        private MultiValue _arg1;
+        private MultiValue _arg2;
 
-        public XiSpell(int arg1, MultiValue arg2)
+        public XiSpell(MultiValue arg1, MultiValue arg2)
         {
-            _rune = arg1;
-            _value = arg2;
+            _arg1 = arg1;
+            _arg2 = arg2;
         }
 
         public override void Execute(ExecutionContext ctx)
@@ -109,18 +109,27 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
         protected override void ExecuteInternal(ExecutionContext ctx)
         {
-            ctx.runes[_rune].SetValue(ctx.workingDataType == ValueType.NONE ? _value.GetValueType() : ctx.workingDataType, _value.GetValue());
+            switch (_arg1.GetValueType())
+            {
+                case ValueType.POINTER:
+                    break;
+                case ValueType.NUMBER:
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg1.GetValueType()}\"");
+            }
+
+            ctx.runes[(int)_arg1.GetValue()].SetValue(ctx.workingDataType == ValueType.NONE ? _arg2.GetValueType() : ctx.workingDataType, _arg2.GetValue());
         }
 
         protected override void GammaRespell(ExecutionContext ctx)
         {
-            _value = _respellArg;
+            _arg2 = _respellArg;
         }
 
         protected override void ChiRespell(ExecutionContext ctx)
         {
-            Random r = new Random(DateTime.Now.Millisecond);
-            _value = new MultiValue(ValueType.NUMBER, r.Next(0, (int)_respellArg.GetValue()));
+            _arg2 = new MultiValue(ValueType.NUMBER, Program.r.Next(0, (int)_respellArg.GetValue()));
         }
 
         protected override void PhiRespell(ExecutionContext ctx)
@@ -217,8 +226,7 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
         protected override void ChiRespell(ExecutionContext ctx)
         {
-            Random r = new Random();
-            _arg = new MultiValue(ValueType.NUMBER, r.Next(0, (int)_respellArg.GetValue()));
+            _arg = new MultiValue(ValueType.NUMBER, Program.r.Next(0, (int)_respellArg.GetValue()));
         }
 
         protected override void PhiRespell(ExecutionContext ctx)
@@ -382,8 +390,7 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
         protected override void ChiRespell(ExecutionContext ctx)
         {
-            Random r = new Random();
-            _respellArg = new MultiValue(ValueType.NUMBER, r.Next(0, (int)_respellArg.GetValue()));
+            _respellArg = new MultiValue(ValueType.NUMBER, Program.r.Next(0, (int)_respellArg.GetValue()));
         }
 
         protected override void PhiRespell(ExecutionContext ctx)
@@ -496,14 +503,15 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
         protected override void ExecuteInternal(ExecutionContext ctx)
         {
-            int pc = ctx.programCounter;
+            ExecutionContext internalCtx = new ExecutionContext(0);
+            internalCtx.OverrideRunes(ctx.runes);
 
-            foreach (SuperSpell spell in _body)
+            while (internalCtx.programCounter >= 0 && internalCtx.programCounter < _body.Count)
             {
-                spell.Execute(ctx);
+                _body[internalCtx.programCounter].Execute(internalCtx);
             }
 
-            ctx.programCounter = pc;
+            ctx.OverrideRunes(internalCtx.runes);
         }
 
         protected override void GammaRespell(ExecutionContext ctx)
@@ -534,10 +542,8 @@ namespace Wandlab_interpreter.Interpreter.Spell
         protected override void ExecuteInternal(ExecutionContext ctx)
         {
             int pc = ctx.programCounter;
-            Random r = new Random(DateTime.Now.Millisecond);
-            int i = r.Next(_body.Count);
 
-            _body[i].Execute(ctx);
+            _body[Program.r.Next(_body.Count)].Execute(ctx);
 
             ctx.programCounter = pc;
         }
@@ -560,25 +566,247 @@ namespace Wandlab_interpreter.Interpreter.Spell
 
     public class DeltaSpell : SuperSpell
     {
-        protected override void ChiRespell(ExecutionContext ctx)
+        private MultiValue _arg;
+
+        public DeltaSpell(MultiValue arg)
         {
-            base.ChiRespell(ctx);
+            _arg = arg;
+        }
+
+        public override void Execute(ExecutionContext ctx)
+        {
+            base.Execute(ctx);
+
+            if (_respell.HasFlag(Respells.Phi))
+                ctx.programCounter -= 1;
         }
 
         protected override void ExecuteInternal(ExecutionContext ctx)
         {
-            throw new NotImplementedException();
+            int delta = 0;
+
+            switch (_arg.GetValueType())
+            {
+                case ValueType.POINTER:
+                    delta = (int)ctx.runes[(int)_arg.GetValue(), true].GetValue(ctx.workingDataType);
+                    break;
+                case ValueType.NUMBER:
+                    delta = (int)ctx.runes[(int)_arg.GetValue()].GetValue(ctx.workingDataType);
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg.GetValueType()}\"");
+            }
+
+            if (_respell.HasFlag(Respells.Phi))
+                delta = -delta;
+
+            ctx.programCounter += delta;
         }
 
         protected override void GammaRespell(ExecutionContext ctx)
         {
-            base.GammaRespell(ctx);
+            _arg = _respellArg;
+        }
+
+        protected override void ChiRespell(ExecutionContext ctx)
+        {
+            _arg = new MultiValue(ValueType.NUMBER, Program.r.Next(0, (int)_respellArg.GetValue()));
         }
 
         protected override void PhiRespell(ExecutionContext ctx)
         {
-            base.PhiRespell(ctx);
+
+        }
+    }
+
+    public class EtaSpell : SuperSpell
+    {
+        private MultiValue _arg1;
+        private MultiValue _arg2;
+        private bool _skipNext = true;
+
+        public EtaSpell(MultiValue arg1, MultiValue arg2)
+        {
+            _arg1 = arg1;
+            _arg2 = arg2;
+        }
+
+        public override void Execute(ExecutionContext ctx)
+        {
+            base.Execute(ctx);
+
+            if (_skipNext)
+                ctx.programCounter += 1;
+        }
+
+        protected override void ExecuteInternal(ExecutionContext ctx)
+        {
+            Rune r;
+            object a = null;
+            object b = null;
+            ValueType aType = ValueType.NONE;
+            ValueType bType = ValueType.NONE;
+
+            switch (_arg1.GetValueType())
+            {
+                case ValueType.POINTER:
+                    r = ctx.runes[(int)_arg1.GetValue(), true];
+                    a = r.GetValue(ctx.workingDataType);
+                    aType = r.GetValueType();
+                    break;
+                case ValueType.NUMBER:
+                    r = ctx.runes[(int)_arg1.GetValue()];
+                    a = r.GetValue(ctx.workingDataType);
+                    aType = r.GetValueType();
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg1.GetValueType()}\"");
+            }
+
+            switch (_arg2.GetValueType())
+            {
+                case ValueType.NONE:
+                    b = _respellArg.GetValue();
+                    break;
+                case ValueType.POINTER:
+                    r = ctx.runes[(int)_arg2.GetValue(), true];
+                    b = r.GetValue(ctx.workingDataType);
+                    bType = r.GetValueType();
+                    break;
+                case ValueType.NUMBER:
+                    r = ctx.runes[(int)_arg2.GetValue()];
+                    b = r.GetValue(ctx.workingDataType);
+                    bType = r.GetValueType();
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg2.GetValueType()}\"");
+            }
+
+            // If the types don't mach and one of them is a string or null
+            if (aType != bType &&
+                (aType == ValueType.STRING || bType == ValueType.STRING))
+                throw new TypeMixingException($"Eta spell cannot be cast on type \"{aType}\" and \"{bType}\"");
+
+            if (a.ToString() == b.ToString() || bType == ValueType.NONE)
+                _skipNext = !_skipNext;
+        }
+
+        protected override void GammaRespell(ExecutionContext ctx)
+        {
+            throw new IllegalRespellException("Gamma cannot be bound to Mu");
+        }
+
+        protected override void ChiRespell(ExecutionContext ctx)
+        {
+            throw new IllegalRespellException("Chi cannot be bound to Mu");
+        }
+
+        protected override void PhiRespell(ExecutionContext ctx)
+        {
+            _skipNext = !_skipNext;
+        }
+    }
+
+    public class ZetaSpell : SuperSpell
+    {
+        private MultiValue _arg1;
+        private MultiValue _arg2;
+        private bool _skipNext = true;
+
+        public ZetaSpell(MultiValue arg1, MultiValue arg2)
+        {
+            _arg1 = arg1;
+            _arg2 = arg2;
+        }
+
+        protected override void ExecuteInternal(ExecutionContext ctx)
+        {
+            Rune r;
+            object a = null;
+            object b = null;
+            ValueType aType = ValueType.NONE;
+            ValueType bType = ValueType.NONE;
+
+            switch (_arg1.GetValueType())
+            {
+                case ValueType.POINTER:
+                    r = ctx.runes[(int)_arg1.GetValue(), true];
+                    a = r.GetValue(ctx.workingDataType);
+                    aType = r.GetValueType();
+                    break;
+                case ValueType.NUMBER:
+                    r = ctx.runes[(int)_arg1.GetValue()];
+                    a = r.GetValue(ctx.workingDataType);
+                    aType = r.GetValueType();
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg1.GetValueType()}\"");
+            }
+
+            switch (_arg2.GetValueType())
+            {
+                case ValueType.NONE:
+                    b = _respellArg.GetValue();
+                    break;
+                case ValueType.POINTER:
+                    r = ctx.runes[(int)_arg2.GetValue(), true];
+                    b = r.GetValue(ctx.workingDataType);
+                    bType = r.GetValueType();
+                    break;
+                case ValueType.NUMBER:
+                    r = ctx.runes[(int)_arg2.GetValue()];
+                    b = r.GetValue(ctx.workingDataType);
+                    bType = r.GetValueType();
+                    break;
+                default:
+                    throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg2.GetValueType()}\"");
+            }
+
+            // If the types don't mach and one of them is a string or null
+            if (aType != bType ||
+                aType == ValueType.STRING || 
+                bType == ValueType.STRING)
+                throw new TypeMixingException($"Eta spell cannot be cast on type \"{aType}\" and \"{bType}\"");
+
+            if (bType == ValueType.NONE)
+                return;
+
+            if (_respell.HasFlag(Respells.Phi))
+            {
+                if ((int)a < (int)b)
+                    _skipNext = !_skipNext;
+            }
+            else
+            {
+                if ((int)a > (int)b)
+                    _skipNext = !_skipNext;
+            }
+        }
+
+        protected override void GammaRespell(ExecutionContext ctx)
+        {
+            throw new IllegalRespellException("Gamma cannot be bound to Mu");
+        }
+
+        protected override void ChiRespell(ExecutionContext ctx)
+        {
+            throw new IllegalRespellException("Chi cannot be bound to Mu");
+        }
+
+        protected override void PhiRespell(ExecutionContext ctx)
+        {
+
         }
     }
     #endregion
 }
+
+//switch (_arg.GetValueType())
+//{
+//    case ValueType.POINTER:
+//        break;
+//    case ValueType.NUMBER:
+//        break;
+//    default:
+//        throw new IllegalTypeException($"Expected number or pointer in argument, got \"{_arg.GetValueType()}\"");
+//}

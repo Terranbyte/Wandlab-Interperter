@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wandlab_interpreter.Interpreter.ErrorHandling;
 using Wandlab_interpreter.Interpreter.Runes;
 using Wandlab_interpreter.Interpreter.Spell;
 using static WandlabParser;
@@ -66,62 +67,53 @@ namespace Wandlab_interpreter.Interpreter
         public override object VisitOp([NotNull] OpContext context)
         {
             string[] opText = context.GetText().Split('|');
-            SuperSpell spell = null;
             FunctionContext function = context.function();
 
             if (function != null)
             {
-                if (opText.Contains("Lambda"))
-                    spell = new LambdaSpell((List<SuperSpell>)VisitFunction(context.function()));
-                else
-                    spell = new SigmaSpell((List<SuperSpell>)VisitFunction(context.function()));
-                return spell;
+                if (opText[0].StartsWith("Lambda"))
+                    return new LambdaSpell((List<SuperSpell>)VisitFunction(context.function()));
+                
+                return new SigmaSpell((List<SuperSpell>)VisitFunction(context.function()));
             }
 
             switch (opText[0])
             {
                 case "Xi":
-                    if (opText.Length > 2)
-                        spell = new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(int.TryParse(opText[2], out int res) ? (object)res : (object)opText[2]));
-                    else
-                        spell = new XiSpell(Convert.ToInt32(opText[1]), MultiValue.NULL);
-                    break;
+                    //if (opText.Length > 2)
+                    //    return new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(int.TryParse(opText[2], out int res) ? (object)res : (object)opText[2]));
+                    //else
+                    //    return new XiSpell(Convert.ToInt32(opText[1]), MultiValue.NULL);
+                    return new XiSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                 case "Omicron":
-                    spell = new OmicronSpell(MultiValue.Parse(opText[1]));
-                    break;
+                    return new OmicronSpell(MultiValue.Parse(opText[1]));
                 case "Omega":
-                    spell = new OmegaSpell(opText.Length > 1 ? MultiValue.Parse(opText[1]) : MultiValue.NULL);
-                    break;
+                    return new OmegaSpell(opText.Length > 1 ? MultiValue.Parse(opText[1]) : MultiValue.NULL);
                 case "Mu":
-                    spell = new MuSpell(MultiValue.Parse(opText[1]), MultiValue.Parse(opText[2]));
-                    break;
+                    return new MuSpell(MultiValue.Parse(opText[1]), MultiValue.Parse(opText[2]));
                 case "Pi":
-                    spell = new PiSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
-                    break;
+                    return new PiSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                 case "Alpha":
-                    spell = new AlphaSpell();
-                    break;
+                    return new AlphaSpell();
                 case "Beta":
-                    spell = new BetaSpell();
-                    break;
+                    return new BetaSpell();
                 case "Theta":
-                    spell = new ThetaSpell();
-                    break;
+                    return new ThetaSpell();
                 //case "Lambda":
                 //    break;
                 //case "Sigma":
                 //    break;
                 case "Delta":
-                    break;
+                    return new DeltaSpell(opText.Length > 1 ? MultiValue.Parse(opText[1]) : MultiValue.NULL);
                 case "Eta":
-                    break;
+                    return new EtaSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                 case "Zeta":
-                    break;
+                    return new ZetaSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                 default:
                     break;
             }
 
-            return spell;
+            throw new UnknownSpellException($"{opText[0]} is not a known spell");
         }
 
         public override object VisitSubop([NotNull] SubopContext context)
