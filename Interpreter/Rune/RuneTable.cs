@@ -56,7 +56,7 @@ namespace Wandlab_interpreter.Interpreter.Runes
         public Rune this[int i] => this[i, false];
         public Rune this[int i, bool raw] => ResolvePointer(i, raw);
 
-        public int Count => throw new NotImplementedException();
+        public int Count => _runes.Length;
 
         private Rune[] _runes = new Rune[0];
 

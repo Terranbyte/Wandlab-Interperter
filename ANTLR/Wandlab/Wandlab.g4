@@ -3,7 +3,7 @@ grammar Wandlab;
 program: preprocessor_command* (operation (DASH operation)*)* EOF
     ;
 
-operation: op subop?
+operation: op subop*
     ;
 
 op: ALPHA

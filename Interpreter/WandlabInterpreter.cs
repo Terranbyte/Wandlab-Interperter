@@ -14,8 +14,12 @@ namespace Wandlab_interpreter.Interpreter
 {
     internal class WandlabInterpreter : WandlabBaseVisitor<object>
     {
+        private ExecutionContext context = new ExecutionContext(64);
+
         public override object VisitProgram([NotNull] ProgramContext context)
         {
+            object[] returnObjects = new object[2];
+
             List<SuperSpell> _program = new List<SuperSpell>();
 
             foreach (Preprocessor_commandContext command in context.preprocessor_command())
@@ -23,22 +27,23 @@ namespace Wandlab_interpreter.Interpreter
                 VisitPreprocessor_command(command);
             }
 
+            returnObjects[0] = this.context;
+
             foreach (OperationContext operation in context.operation())
             {
                 _program.Add((SuperSpell)VisitOperation(operation));
             }
 
-            return _program;
+            returnObjects[1] = _program;
+
+            return returnObjects;
         }
 
         public override object VisitPreprocessor_command([NotNull] Preprocessor_commandContext context)
         {
-            Console.WriteLine(context.GetText());
+            string preprocessor = context.GetText().Split(':')[0].Substring(1);
 
-            foreach (Preprocessor_argContext arg in context.preprocessor_arg())
-            {
-                VisitPreprocessor_arg(arg);
-            }
+            ApplyPreprocessor(preprocessor, context.preprocessor_arg());
 
             return null;
         }
@@ -49,16 +54,31 @@ namespace Wandlab_interpreter.Interpreter
             return null;
         }
 
+        public void ApplyPreprocessor(string preprocessor, Preprocessor_argContext[] args)
+        {
+            switch (preprocessor)
+            {
+                case "RUNETABLE":
+                    context = new ExecutionContext(Convert.ToInt32(args[0].GetText()));
+                    break;
+                default:
+                    throw new UnknownPreprocessorException($"The preprocessor \"{preprocessor}\" is not known");
+            }
+        }
+
         public override object VisitOperation([NotNull] OperationContext context)
         {
             SuperSpell spell;
             spell = (SuperSpell)VisitOp(context.op());
-            SubopContext subop = context.subop();
+            SubopContext[] subops = context.subop();
 
-            if (subop != null && spell != null && !subop.IsEmpty)
+            foreach (SubopContext subop in subops)
             {
-                object[] temp = (object[])VisitSubop(subop);
-                spell.SetRespell((Respells)temp[0], (MultiValue)temp[1]);
+                if (subop != null && spell != null && !subop.IsEmpty)
+                {
+                    object[] temp = (object[])VisitSubop(subop);
+                    spell.SetRespell((Respells)temp[0], (MultiValue)temp[1]);
+                }
             }
 
             return spell;
@@ -80,10 +100,6 @@ namespace Wandlab_interpreter.Interpreter
             switch (opText[0])
             {
                 case "Xi":
-                    //if (opText.Length > 2)
-                    //    return new XiSpell(Convert.ToInt32(opText[1]), new MultiValue(int.TryParse(opText[2], out int res) ? (object)res : (object)opText[2]));
-                    //else
-                    //    return new XiSpell(Convert.ToInt32(opText[1]), MultiValue.NULL);
                     return new XiSpell(MultiValue.Parse(opText[1]), opText.Length > 2 ? MultiValue.Parse(opText[2]) : MultiValue.NULL);
                 case "Omicron":
                     return new OmicronSpell(MultiValue.Parse(opText[1]));

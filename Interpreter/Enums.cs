@@ -19,7 +19,7 @@ namespace Wandlab_interpreter.Interpreter
         None = 0,
         Gamma = 1,
         Chi = 2,
-        Tau = 3,
-        Phi = 4,
+        Tau = 4,
+        Phi = 8,
     }
 }

@@ -7,6 +7,25 @@ using System.Threading.Tasks;
 
 namespace Wandlab_interpreter.Interpreter.ErrorHandling
 {
+    public class MissingArgumentException : Exception
+    {
+        public MissingArgumentException()
+        {
+        }
+
+        public MissingArgumentException(string message) : base(message)
+        {
+        }
+
+        public MissingArgumentException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected MissingArgumentException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
     public class TypeMixingException : Exception
     {
         public TypeMixingException()
@@ -98,6 +117,25 @@ namespace Wandlab_interpreter.Interpreter.ErrorHandling
         }
 
         protected UnknownSpellException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
+    public class UnknownPreprocessorException : Exception
+    {
+        public UnknownPreprocessorException()
+        {
+        }
+
+        public UnknownPreprocessorException(string message) : base(message)
+        {
+        }
+
+        public UnknownPreprocessorException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected UnknownPreprocessorException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
